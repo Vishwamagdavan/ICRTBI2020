@@ -13,33 +13,26 @@ if (isset($_POST['submit'])) {
 	$email = $_POST['element_3'];
 	$institute = $_POST['element_4'];
 	$mobile = $_POST['element_5'];
-	$ini_amount=$_POST['element_8'];
-	$amount=0;
-	if($ini_amount==1)
-	{
-		$amount=5500;
-	}
-	else if($ini_amount==2)
-	{
-		$amount=2;
-	}
-	else if($ini_amount==3)
-	{
-		$amount=3;
-	}
-	else
-	{
-		$amount=4;
+	$ini_amount = $_POST['element_8'];
+	$amount = 0;
+	if ($ini_amount == 1) {
+		$amount = 1;
+	} else if ($ini_amount == 2) {
+		$amount = 2;
+	} else if ($ini_amount == 3) {
+		$amount = 3;
+	} else {
+		$amount = 4;
 	}
 
-	$extra_amount=$amount;
+	$extra_amount = $amount;
 	// if($extra_amount==1)
 	// 	$extra_amount=$amount;
 	// else
 	// 	$extra_amount=$amount+500;
 	$query = "INSERT into register set name='$name',designation='$designation',email='$email',institute='$institute',mobile='$mobile',amount='$extra_amount',payment_id='$mtxnid'";
 	$query_run = mysqli_query($con, $query);
-	
+
 	$_SESSION['mtxnid'] = $mtxnid;
 
 
@@ -60,17 +53,74 @@ if (isset($_POST['submit'])) {
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script src="https://use.fontawesome.com/87bc9ef760.js"></script>
 	<script type="text/javascript" src="view.js"></script>
 </head>
 
 <body>
-	<div class="container-fluid" style="background-color:#9999ff; padding:20px;" >
-		<center>
-			<h1><a>5<sup>th</sup> International Conference on Recent Trends in Engineering and Technology</a></h1>
-		</center>
-		<center>
-			<h2>St. Joseph's Insitute of Technology, Chennai.</h2>
-		</center>
+	<div class="container-fluid">
+		<div class="row" id="border">
+			<div class="col-md-8">
+				<div class="row">
+					<div class="col-md-2">
+						<br>
+						<center><img src="img/unnamed.png" alt="College Logo" style="width: 90%"></center>
+					</div>
+					<div class="col-md-8">
+						<br>
+						<center>
+							<h4 style="font-size: 20px;"><strong>5<sup>th</sup> International Conference on Recent Trends in Big Data and IoT
+									<br>&</strong><br><strong style="font-size: 15px;">One day Pre Conference Seminar on "Social Impacts of Big Data and IOT
+									Applications"</strong></h4>
+							<h5>Organised by</h5>
+							<!-- <h5 style="font-family: 'Monotype Corsiva';" id="paddown">We Make You Shine</h5> -->
+							<h4 id="paddown"><strong>St.Joseph’s Institute of Technology, Chennai, India</strong></h4>
+							<h5 id="paddown"></h5>
+						</center>
+					</div>
+
+					<div class="col-md-2">
+						<br>
+						<center><img src="img/unnamed2.png" alt="ICBRT-Logo" style="width:90%;"></center>
+					</div>
+				</div>
+			</div>
+			<hr style="margin-left: 0px;margin-right: 0px;">
+			<div class="col-md-3" style="padding-left: 21px;padding-right: 0px;margin-left: 50px;" id="hideout">
+				<br>
+				<div class="row">
+					<br>
+					<div class="col-md-12">
+						<h4>
+							<center style="color: #236298;"><strong>In Association with</strong></center>
+						</h4>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-5">
+						<img src="img/logo/o3_o2.png" alt="" style="width: 280%; padding-bottom : 20px;">
+					</div>
+					<!-- <div class="col-md-5">
+                          <img src="img/logo/o4.jpg" alt="" style="width: 100%">
+                        </div> -->
+					<!-- <div class="col-md-4">
+                            <img src="img/logo/o2.jpg" alt="" style="width: 100%">
+                          </div>        -->
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="d-flex justify-content-center">
+							<h5 style="background-color:#236298; color: white; padding: 8px; border-radius: 6px;">Conference Date <time><strong>7<sup>th</sup> to 9<sup>th</sup> April 2020</strong></time></h5>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
 	</div>
 	<br>
 	<div class="container">
@@ -82,7 +132,7 @@ if (isset($_POST['submit'])) {
 				<form id="form_38599" class="appnitro" enctype="multipart/form-data" method="post" action="">
 					<div class="form-row">
 						<div class="form-group col-md-8">
-							<label for="inputEmail4">Paper ID</label>
+							<label for="inputEmail4">Paper ID (Easy Chair Paper ID)</label>
 							<input type="text" class="form-control" id="element_0" name="element_0" placeholder="Paper" maxlength="255" value="">
 							<br>
 							<label for="inputPassword4">Paper title</label>
@@ -91,18 +141,21 @@ if (isset($_POST['submit'])) {
 							<label for="inputPassword4">Corresponding Author Name</label>
 							<input type="text" class="form-control" id="element_2" name="element_2" placeholder="Ex: John" maxlength="255" value="">
 							<br>
-							<label for="inputPassword4">Author Email</label>
+							<label for="inputPassword4">Corresponding Author Email</label>
 							<input type="email" class="form-control" id="element_3" name="element_3" placeholder="Ex: example@gmail.com" maxlength="255" value="">
 							<br>
-							<label for="inputPassword4">Affliation</label>
+							<label for="inputPassword4">Corresponding Author Mobile</label>
+							<input type="text" class="form-control" id="element_5" name="element_5" placeholder="Ex: +919898989898" maxlength="255" value="">
+							<!-- <label for="inputPassword4">Affliation</label>
 							<input type="text" class="form-control" id="element_5" name="element_9" placeholder="" maxlength="255" value="">
+							<br> -->
 							<br>
 							<label for="inputPassword4">Name of Institution</label>
 							<input type="text" class="form-control" id="element_4" name="element_4" placeholder="St. Joseph's Institute of Technology" maxlength="255" value="">
 							<br>
-							<label for="inputPassword4">Author Mobile</label>
+							<!-- <label for="inputPassword4">Corresponding Author Mobile</label>
 							<input type="text" class="form-control" id="element_5" name="element_5" placeholder="Ex: +919898989898" maxlength="255" value="">
-							<br>
+							<br> -->
 							<label for="inputState">Category</label>
 							<select id="inputState" class="form-control" name="element_8" onchange="showDiv('hidden_div',this)">
 								<option value="1">STUDENT</option>
@@ -119,11 +172,20 @@ if (isset($_POST['submit'])) {
 								<option value="1500">LISTENER</option>
 							</select> -->
 							<br>
-							
+
 							<input type="checkbox" name="sem" value="1">I would like to attend One Day Pre-Conference<br>
 							<br>
-							<label for="inputPassword4">Discount Coupon</label>
+							<label for="inputPassword4">Discount Coupon (Applies only for home institution)</label>
 							<input type="text" name="element_9" class="form-control" placeholder="Enter Coupon Code">
+							<br>
+							<form action="">
+							<div class="field_wrapper">
+								<div>
+									<input type="text" name="field_name" value="" />
+									<a href="javascript:void(0);" class="add_button" title="Add field"><i class="fa fa-plus" aria-hidden="true"></i></a>
+								</div>
+							</div>
+							</form>
 							<br>
 							<label for="inputPassword4">Price</label>
 							<input type="number" name="element_9" class="form-control" id="hidden_div" value=5500 readonly>
@@ -146,8 +208,8 @@ if (isset($_POST['submit'])) {
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>ICRTBI2020 Registration</title>
 	<link rel="stylesheet" type="text/css" href="view.css" media="all"> -->
-	<!-- <link href="payment.css" rel="stylesheet" type="text/css"></link> -->
-	<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<!-- <link href="payment.css" rel="stylesheet" type="text/css"></link> -->
+<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 	<script type="text/javascript" src="view.js"></script>
@@ -227,7 +289,7 @@ if (isset($_POST['submit'])) {
 									<input id="element_5" name="element_5" class="element text medium" type="text" maxlength="255" value="" />
 								</div>
 							</li><br> -->
-							<!-- <li id="li_5" >
+<!-- <li id="li_5" >
 		<label class="description" for="element_7">Category</label>
 		<div>
 			<select id="test" name="element_7" onchange="showDiv('hidden_div', this)">
@@ -262,7 +324,7 @@ if (isset($_POST['submit'])) {
  -->
 
 
-							<!-- <li id="li_5">
+<!-- <li id="li_5">
 			<div id="hidden_div">
 				<label>Amount</label><br>
 				<select name="element_8">
@@ -282,7 +344,7 @@ if (isset($_POST['submit'])) {
 				</select>
 			</div>
 		</li><br> -->
-							<!-- <li id="li_5">
+<!-- <li id="li_5">
 								<label class="description" for="element_1">Discount Coupon</label>
 								<div>
 									<input type="text" name="element_9" placeholder="Enter Coupon Code">
@@ -311,68 +373,109 @@ if (isset($_POST['submit'])) {
 
 		</form> -->
 
-		<!-- 
+<!-- 
 <div style="text-align: center;background-color: lightgreen;border: 2px solid green;border-radius: 50px;color: green;font-weight: bold;font-size: 20px;padding: 20px;margin: 10px">Transaction Sucess</div> -->
 
-		<?php
+<?php
 
 
 
 
-		if (isset($_GET['msg'])) {
-			$id = $_SESSION['mtxnid'];
-			$message = $_GET['msg'];
-			$ref = $_GET['msg'];
-			$ref = json_decode($ref, true);
-			if (strcmp($message, 'Transaction Failed') == 0) {
-				$query = "UPDATE register set payment_status='failed' WHERE payment_id='$id'";
-				$query_run = mysqli_query($con, $query);
-		?>
-				<div style="text-align: center;background-color:#ff9999 ;border: 2px solid red;border-radius: 50px;color: red;font-weight: bold;font-size: 20px;padding: 20px;margin: 10px">Payment Failed</div>
-			<?php
-			} else {
-				$query = "UPDATE register set payment_status='success' WHERE payment_id='$id'";
-				$query_run = mysqli_query($con, $query); ?>
-				<div style="text-align: center;background-color: lightgreen;border: 2px solid green;border-radius: 50px;color: green;font-weight: bold;font-size: 20px;padding: 20px;margin: 10px">Payment Sucess<br>
-					Your Ref Id : <?php echo $ref['refno']; ?><br>
-					Amount Paid : <?php echo $ref['amount']; ?>
-				</div>
+if (isset($_GET['msg'])) {
+	$id = $_SESSION['mtxnid'];
+	$message = $_GET['msg'];
+	$ref = $_GET['msg'];
+	$ref = json_decode($ref, true);
+	if (strcmp($message, 'Transaction Failed') == 0) {
+		$query = "UPDATE register set payment_status='failed' WHERE payment_id='$id'";
+		$query_run = mysqli_query($con, $query);
+?>
+		<div style="text-align: center;background-color:#ff9999 ;border: 2px solid red;border-radius: 50px;color: red;font-weight: bold;font-size: 20px;padding: 20px;margin: 10px">Payment Failed</div>
+	<?php
+	} else {
+		$query = "UPDATE register set payment_status='success' WHERE payment_id='$id'";
+		$query_run = mysqli_query($con, $query); ?>
+		<div style="text-align: center;background-color: lightgreen;border: 2px solid green;border-radius: 50px;color: green;font-weight: bold;font-size: 20px;padding: 20px;margin: 10px">Payment Sucess<br>
+			Your Ref Id : <?php echo $ref['refno']; ?><br>
+			Amount Paid : <?php echo $ref['amount']; ?>
+		</div>
 
-		<?php }
+<?php }
+}
+
+?>
+</div>
+<script type="text/javascript">
+	// function debug()
+	// {
+	// 	var e = document.getElementById("element_10");
+	// var result = e.options[e.selectedIndex].text;
+	// console.log(result);
+	// document.getElementById("element_9").value=0;
+	// }
+
+	function showDiv(divId, element) {
+		console.log(element.value);
+		var amount = [5500, 6000, 6500, 1500];
+		document.getElementById(divId).value = element.value == 1 ? 0 : amount[element.value - 1];
+		document.getElementById(divId).value = element.value == 2 ? 0 : amount[element.value - 1];
+		document.getElementById(divId).value = element.value == 3 ? 0 : amount[element.value - 1];
+		document.getElementById(divId).value = element.value == 4 ? 0 : amount[element.value - 1];
+		var number = document.getElementById(divId).value = element.value == 4 ? 1500 : amount[element.value - 1];
+		console.log(number);
+	}
+	var counter = 1;
+	var limit = 5;
+
+	function addInput(divName) {
+		if (counter == limit) {
+			alert("You have reached the limit of adding " + counter + " Certificates");
+		} else {
+			var newdiv = document.createElement('div');
+			newdiv.innerHTML = "Certificate " + (counter + 1) + " <br><input type='text' name='myInputs[]'><br>";
+			document.getElementById(divName).appendChild(newdiv);
+			counter++;
 		}
+	}
 
-		?>
-	</div>
-	<script type="text/javascript">
-		// function debug()
-		// {
-		// 	var e = document.getElementById("element_10");
-		// var result = e.options[e.selectedIndex].text;
-		// console.log(result);
-		// document.getElementById("element_9").value=0;
-		// }
+	// function check(divId, element) {
+	// 	var amt = parseInt(document.getElementById(divId).value);
+	// 	console.log(amt); 
+	// 	if (element.checked) {
+	// 		document.getElementById(divId).value = amt + 500;
+	// 	} else {
+	// 		document.getElementById(divId).value = amt - 500;
+	// 	}
+	// }
+	$(document).ready(function() {
+		var maxField = 10; //Input fields increment limitation
+		var addButton = $('.add_button'); //Add button selector
+		var wrapper = $('.field_wrapper'); //Input field wrapper
+		var fieldHTML = '<div><input type="text" name="field_name[]" value=""/><a href="javascript:void(0);" class="remove_button"><i class="fa fa-minus" aria-hidden="true"></i></a></div>'; //New input field html 
+		var x = 1; //Initial field counter is 1
 
-		function showDiv(divId, element) {
-			console.log(element.value);
-			var amount = [5500, 6000, 6500,1500];
-			document.getElementById(divId).value = element.value == 1 ? 0 : amount[element.value - 1];
-			document.getElementById(divId).value = element.value == 2 ? 0 : amount[element.value - 1];
-			document.getElementById(divId).value = element.value == 3 ? 0 : amount[element.value - 1];
-			document.getElementById(divId).value = element.value == 4 ? 0 : amount[element.value - 1];
-			var number=document.getElementById(divId).value = element.value == 4 ? 1500 : amount[element.value -1];
-			console.log(number);
-		}
+		//Once add button is clicked
+		$(addButton).click(function() {
+			//Check maximum number of input fields
+			if (x < maxField) {
+				x++; //Increment field counter
+				$(wrapper).append(fieldHTML); //Add field html
+			}
+		});
 
-		// function check(divId, element) {
-		// 	var amt = parseInt(document.getElementById(divId).value);
-		// 	console.log(amt); 
-		// 	if (element.checked) {
-		// 		document.getElementById(divId).value = amt + 500;
-		// 	} else {
-		// 		document.getElementById(divId).value = amt - 500;
-		// 	}
-		// }
-	</script>
+		//Once remove button is clicked
+		$(wrapper).on('click', '.remove_button', function(e) {
+			e.preventDefault();
+			$(this).parent('div').remove(); //Remove field html
+			x--; //Decrement field counter
+		});
+	});
+</script>
 </body>
 
 </html>
+<?php
+$field_values_array = $_POST['field_name'];
+
+print_r($field_values_array);
+?>
