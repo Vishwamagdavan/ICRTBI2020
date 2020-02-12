@@ -218,7 +218,7 @@ if (isset($_POST['submit'])) {
 									<label for="">Certificate</label><br>
 									<input  type="text" name="field_name[]" value="" placeholder="Applicant name" />
 									<input  type="text" name="college_name[]" placeholder="Institution Name">
-									<a href="javascript:void(0);" class="add_button" title="Add field" onchange="check('hidden_div',this)" ><i class="fa fa-plus" aria-hidden="true"></i></a>
+									<a href="javascript:void(0);" class="add_button" title="Add field" onclick="check('hidden_div',this)" ><i class="fa fa-plus" aria-hidden="true"></i></a>
 								</div>
 							</div>
 							
@@ -441,38 +441,43 @@ if (isset($_GET['msg'])) {
 <script type="text/javascript">
 
 	function showDiv(divId, element) {
-		console.log(element.value);
 		var amount = [5500, 6000, 6500, 1500];
 		document.getElementById(divId).value = element.value == 1 ? 0 : amount[element.value - 1];
 		document.getElementById(divId).value = element.value == 2 ? 0 : amount[element.value - 1];
 		document.getElementById(divId).value = element.value == 3 ? 0 : amount[element.value - 1];
 		document.getElementById(divId).value = element.value == 4 ? 0 : amount[element.value - 1];
 		var number = document.getElementById(divId).value = element.value == 4 ? 1500 : amount[element.value - 1];
-		console.log(number);
 	}
-
+	var count=5,i=0;
 	function check(divId, element) {
-		var amt = parseInt(document.getElementById(divId).value);
-		console.log(amt); 
-		if (element.checked) {
-			document.getElementById(divId).value = amt + 500;
-		} else {
-			document.getElementById(divId).value = amt - 500;
+		if(i<count)
+		{
+			var amt = parseInt(document.getElementById(divId).value);
+		document.getElementById(divId).value = amt + 300;
+		console.log(amt);
+		i++;
 		}
+		
 	}
-
-	function takeCountinDiv(x)
+		function check_minus()
 	{
-		var extra_amount=[300,600,900,1200,1500];
-		console.log(x);
+		var amt = parseInt(document.getElementById('hidden_div').value);
+		document.getElementById('hidden_div').value = amt - 300;
+		
+		if(i==0)
+		{
+			i=i;
+		}
+		else
+		i--;
 
 	}
 	
 	$(document).ready(function() {
 		var maxField = 5; //Input fields increment limitation
 		var addButton = $('.add_button'); //Add button selector
-		var wrapper = $('.field_wrapper'); //Input field wrapper
-		var fieldHTML = '<div><input placeholder="Name" type="text" name="field_name[]" value=""/>	<input type="text" name="college_name[]" placeholder="Institution Name"><a href="javascript:void(0);" class="remove_button"><i class="fa fa-minus" aria-hidden="true" style="padding:5px;"></i></a></div>'; //New input field html 
+		var wrapper = $('.field_wrapper'); //Input field wrapper 
+		var fieldHTML = '<div><input placeholder="Name" type="text" name="field_name[]" value=""/>	<input type="text" name="college_name[]" placeholder="Institution Name"><a href="javascript:void(0);"  class="remove_button" onclick="check_minus()"><i class="fa fa-minus"  aria-hidden="true" style="padding:5px;"></i></a></div>'; //New input field html 
 		var x = 1; //Initial field counter is 1
 		
 		//Once add button is clicked
@@ -482,8 +487,8 @@ if (isset($_GET['msg'])) {
 			if (x <maxField) {
 				x++; //Increment field counter
 				$(wrapper).append(fieldHTML); //Add field html
-				takeCountinDiv(x);
 			}
+			
 		});
 
 		//Once remove button is clicked
