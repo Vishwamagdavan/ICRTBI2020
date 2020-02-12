@@ -7,19 +7,43 @@ $con = mysqli_connect("localhost", "u987684220_fdp", "admin@stjose", "u987684220
 
 
 if (isset($_POST['submit'])) {
-	$mtxnid = "STJOSEFDP" . mt_rand();
+	$mtxnid = "ICRTBI2020" . mt_rand();
 	$name = $_POST['element_2'];
 	$designation = $_POST['element_2'];
 	$email = $_POST['element_3'];
 	$institute = $_POST['element_4'];
 	$mobile = $_POST['element_5'];
-	$amount = $_POST['element_8'];
-	$query = "INSERT into register set name='$name',designation='$designation',email='$email',institute='$institute',mobile='$mobile',amount='$amount',payment_id='$mtxnid'";
+	$ini_amount=$_POST['element_8'];
+	$amount=0;
+	if($ini_amount==1)
+	{
+		$amount=5500;
+	}
+	else if($ini_amount==2)
+	{
+		$amount=6000;
+	}
+	else if($ini_amount==3)
+	{
+		$amount=6500;
+	}
+	else if($ini_amount==4)
+	{
+		$amount==1500;
+	}
+
+	$extra_amount=$_POST['sem'];
+	if($extra_amount==1)
+		$extra_amount=$amount;
+	else
+		$extra_amount=$amount+500;
+	$query = "INSERT into register set name='$name',designation='$designation',email='$email',institute='$institute',mobile='$mobile',amount='$extra_amount',payment_id='$mtxnid'";
 	$query_run = mysqli_query($con, $query);
+	
 	$_SESSION['mtxnid'] = $mtxnid;
 
 
-	header("Location: https://portal.stjosephstechnology.ac.in/sendPost.jsp?RUrl=https://portal.stjosephstechnology.ac.in/TechProcess?auth=fluffy%26amount=$amount%26user=ICRTET%26custid=$name%26refno=$mtxnid%26returnURL=http://icrtbi2020.stjosephstechnology.ac.in/register.php", TRUE, 307);
+	header("Location: https://portal.stjosephstechnology.ac.in/sendPost.jsp?RUrl=https://portal.stjosephstechnology.ac.in/TechProcess?auth=fluffy%26amount=$extra_amount%26user=ICRTET%26custid=$name%26refno=$mtxnid%26returnURL=http://icrtbi2020.stjosephstechnology.ac.in/register.php", TRUE, 307);
 }
 
 ?>
@@ -85,13 +109,14 @@ if (isset($_POST['submit'])) {
 								<option value="4">LISTENER</option>
 							</select>
 							<br>
-							<input type="checkbox" name="sem" value="1" onchange="check('hidden_div',this)">INCLUDE SEMINAR<br>
+							
+							<input type="checkbox" name="sem" value="1" onchange="check('hidden_div',this)" checked="checked">INCLUDE SEMINAR<br>
 							<br>
 							<label for="inputPassword4">Discount Coupon</label>
 							<input type="text" name="element_9" class="form-control" placeholder="Enter Coupon Code">
 							<br>
 							<label for="inputPassword4">Price</label>
-							<input type="number" name="element_9" class="form-control" id="hidden_div" value=6500 readonly>
+							<input type="number" name="element_9" class="form-control" id="hidden_div" value=5500 readonly>
 							<input type="hidden" name="form_id" value="38599" />
 						</div>
 					</div>
@@ -312,9 +337,12 @@ if (isset($_POST['submit'])) {
 		?>
 	</div>
 	<script type="text/javascript">
+
+		var name=ini_amount=document.getElementById("element_9");
+		console.log(name);
 		function showDiv(divId, element) {
 
-			var amount = [5500, 6000, 6500, 1500];
+			var amount = [5500, 6000, 6500,1500];
 			document.getElementById(divId).value = element.value == 1 ? 0 : amount[element.value - 1];
 			document.getElementById(divId).value = element.value == 2 ? 0 : amount[element.value - 1];
 			document.getElementById(divId).value = element.value == 3 ? 0 : amount[element.value - 1];
