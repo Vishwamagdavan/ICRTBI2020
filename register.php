@@ -17,26 +17,26 @@ if (isset($_POST['submit'])) {
 	$amount=0;
 	if($ini_amount==1)
 	{
-		$amount=5500;
+		$amount=1;
 	}
 	else if($ini_amount==2)
 	{
-		$amount=6000;
+		$amount=2;
 	}
 	else if($ini_amount==3)
 	{
-		$amount=6500;
+		$amount=3;
 	}
-	else if($ini_amount==4)
+	else
 	{
-		$amount==1500;
+		$amount=4;
 	}
 
-	$extra_amount=$_POST['sem'];
-	if($extra_amount==1)
-		$extra_amount=$amount;
-	else
-		$extra_amount=$amount+500;
+	$extra_amount=$amount;
+	// if($extra_amount==1)
+	// 	$extra_amount=$amount;
+	// else
+	// 	$extra_amount=$amount+500;
 	$query = "INSERT into register set name='$name',designation='$designation',email='$email',institute='$institute',mobile='$mobile',amount='$extra_amount',payment_id='$mtxnid'";
 	$query_run = mysqli_query($con, $query);
 	
@@ -66,7 +66,7 @@ if (isset($_POST['submit'])) {
 <body>
 	<div class="container-fluid">
 		<center>
-			<h1><a>5th International Conference on Recent Trends in Engineering and Technology</a></h1>
+			<h1><a>5<sup>th</sup> International Conference on Recent Trends in Engineering and Technology</a></h1>
 		</center>
 		<center>
 			<h2>St. Joseph's Insitute of Technology, Chennai.</h2>
@@ -108,9 +108,17 @@ if (isset($_POST['submit'])) {
 								<option value="3">ACADEMIA / R&D / INDUSTRY</option>
 								<option value="4">LISTENER</option>
 							</select>
+							<!-- <br>
+							<label for="inputState">Category</label>
+							<select id="element_10" class="form-control" onchange="debug()" onload="debug()">
+								<option value="5500" >STUDENT</option>
+								<option value="6000" selected>RESEARCH SCHOLAR</option>
+								<option value="6500">ACADEMIA / R&D / INDUSTRY</option>
+								<option value="1500">LISTENER</option>
+							</select> -->
 							<br>
 							
-							<input type="checkbox" name="sem" value="1" onchange="check('hidden_div',this)" checked="checked">INCLUDE SEMINAR<br>
+							<input type="checkbox" name="sem" value="1" checked="none">I would like to attend One Day Pre-Conference<br>
 							<br>
 							<label for="inputPassword4">Discount Coupon</label>
 							<input type="text" name="element_9" class="form-control" placeholder="Enter Coupon Code">
@@ -128,9 +136,6 @@ if (isset($_POST['submit'])) {
 </body>
 
 </html>
-
-
-
 
 
 
@@ -337,26 +342,34 @@ if (isset($_POST['submit'])) {
 		?>
 	</div>
 	<script type="text/javascript">
+		// function debug()
+		// {
+		// 	var e = document.getElementById("element_10");
+		// var result = e.options[e.selectedIndex].text;
+		// console.log(result);
+		// document.getElementById("element_9").value=0;
+		// }
 
-		var name=ini_amount=document.getElementById("element_9");
-		console.log(name);
 		function showDiv(divId, element) {
-
+			console.log(element.value);
 			var amount = [5500, 6000, 6500,1500];
 			document.getElementById(divId).value = element.value == 1 ? 0 : amount[element.value - 1];
 			document.getElementById(divId).value = element.value == 2 ? 0 : amount[element.value - 1];
 			document.getElementById(divId).value = element.value == 3 ? 0 : amount[element.value - 1];
 			document.getElementById(divId).value = element.value == 4 ? 0 : amount[element.value - 1];
+			var number=document.getElementById(divId).value = element.value == 4 ? 1500 : amount[element.value -1];
+			console.log(number);
 		}
 
-		function check(divId, element) {
-			var amt = parseInt(document.getElementById(divId).value);
-			if (element.checked) {
-				document.getElementById(divId).value = amt + 500;
-			} else {
-				document.getElementById(divId).value = amt - 500;
-			}
-		}
+		// function check(divId, element) {
+		// 	var amt = parseInt(document.getElementById(divId).value);
+		// 	console.log(amt); 
+		// 	if (element.checked) {
+		// 		document.getElementById(divId).value = amt + 500;
+		// 	} else {
+		// 		document.getElementById(divId).value = amt - 500;
+		// 	}
+		// }
 	</script>
 </body>
 
