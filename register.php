@@ -497,6 +497,7 @@ if (isset($_GET['msg'])) {
 			$(this).parent('div').remove(); //Remove field html
 			x--; //Decrement field counter
 		});
+		
 		console.log(x);
 	});
 </script>
