@@ -16,13 +16,13 @@ if (isset($_POST['submit'])) {
 	$ini_amount = $_POST['element_8'];
 	$amount = 0;
 	if ($ini_amount == 1) {
-		$amount = 1;
+		$amount = 5500;
 	} else if ($ini_amount == 2) {
-		$amount = 2;
+		$amount = 6000;
 	} else if ($ini_amount == 3) {
-		$amount = 3;
+		$amount = 6500;
 	} else {
-		$amount = 4;
+		$amount = 1500;
 	}
 
 	$extra_amount = $amount;
@@ -131,7 +131,7 @@ if (isset($_POST['submit'])) {
 				<h4>Details</h4>
 				<form id="form_38599" class="appnitro" enctype="multipart/form-data" method="post" action="">
 					<div class="form-row">
-						<div class="form-group col-md-8">
+						<div class="form-group col-md-12">
 							<label for="inputEmail4">Paper ID (Easy Chair Paper ID)</label>
 							<input type="text" class="form-control" id="element_0" name="element_0" placeholder="Paper" maxlength="255" value="">
 							<br>
@@ -181,7 +181,9 @@ if (isset($_POST['submit'])) {
 							<form action="">
 							<div class="field_wrapper">
 								<div>
-									<input type="text" name="field_name" value="" />
+									<label for="">Certificate</label><br>
+									<input  type="text" name="field_name" value="" placeholder="Applicant name" />
+									<input  type="text" name="college_name" placeholder="Institution Name">
 									<a href="javascript:void(0);" class="add_button" title="Add field"><i class="fa fa-plus" aria-hidden="true"></i></a>
 								</div>
 							</div>
@@ -406,13 +408,6 @@ if (isset($_GET['msg'])) {
 ?>
 </div>
 <script type="text/javascript">
-	// function debug()
-	// {
-	// 	var e = document.getElementById("element_10");
-	// var result = e.options[e.selectedIndex].text;
-	// console.log(result);
-	// document.getElementById("element_9").value=0;
-	// }
 
 	function showDiv(divId, element) {
 		console.log(element.value);
@@ -424,19 +419,6 @@ if (isset($_GET['msg'])) {
 		var number = document.getElementById(divId).value = element.value == 4 ? 1500 : amount[element.value - 1];
 		console.log(number);
 	}
-	var counter = 1;
-	var limit = 5;
-
-	function addInput(divName) {
-		if (counter == limit) {
-			alert("You have reached the limit of adding " + counter + " Certificates");
-		} else {
-			var newdiv = document.createElement('div');
-			newdiv.innerHTML = "Certificate " + (counter + 1) + " <br><input type='text' name='myInputs[]'><br>";
-			document.getElementById(divName).appendChild(newdiv);
-			counter++;
-		}
-	}
 
 	// function check(divId, element) {
 	// 	var amt = parseInt(document.getElementById(divId).value);
@@ -447,19 +429,22 @@ if (isset($_GET['msg'])) {
 	// 		document.getElementById(divId).value = amt - 500;
 	// 	}
 	// }
+	
 	$(document).ready(function() {
-		var maxField = 10; //Input fields increment limitation
+		var maxField = 5; //Input fields increment limitation
 		var addButton = $('.add_button'); //Add button selector
 		var wrapper = $('.field_wrapper'); //Input field wrapper
-		var fieldHTML = '<div><input type="text" name="field_name[]" value=""/><a href="javascript:void(0);" class="remove_button"><i class="fa fa-minus" aria-hidden="true"></i></a></div>'; //New input field html 
+		var fieldHTML = '<div><input placeholder="Name" type="text" name="field_name" value=""/>	<input type="text" name="college_name" placeholder="Institution Name"><a href="javascript:void(0);" class="remove_button"><i class="fa fa-minus" aria-hidden="true" style="padding:5px;"></i></a></div>'; //New input field html 
 		var x = 1; //Initial field counter is 1
-
+		
 		//Once add button is clicked
 		$(addButton).click(function() {
 			//Check maximum number of input fields
+			
 			if (x < maxField) {
 				x++; //Increment field counter
 				$(wrapper).append(fieldHTML); //Add field html
+				document.getElementById("element_9").value = amt + 300;
 			}
 		});
 
