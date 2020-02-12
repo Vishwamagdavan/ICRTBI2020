@@ -8,13 +8,12 @@ $con = mysqli_connect("localhost", "u987684220_fdp", "admin@stjose", "u987684220
 
 if (isset($_POST['submit'])) {
 	$mtxnid = "STJOSEFDP" . mt_rand();
-	$name = $_POST['element_1'];
+	$name = $_POST['element_2'];
 	$designation = $_POST['element_2'];
 	$email = $_POST['element_3'];
 	$institute = $_POST['element_4'];
 	$mobile = $_POST['element_5'];
 	$amount = $_POST['element_8'];
-
 	$query = "INSERT into register set name='$name',designation='$designation',email='$email',institute='$institute',mobile='$mobile',amount='$amount',payment_id='$mtxnid'";
 	$query_run = mysqli_query($con, $query);
 	$_SESSION['mtxnid'] = $mtxnid;
@@ -46,7 +45,7 @@ if (isset($_POST['submit'])) {
 			<h1><a>5th International Conference on Recent Trends in Engineering and Technology</a></h1>
 		</center>
 		<center>
-			<h2>St. Joseph's Insitute of Technology, Chennai,</h2>
+			<h2>St. Joseph's Insitute of Technology, Chennai.</h2>
 		</center>
 	</div>
 	<div class="container">
@@ -73,13 +72,13 @@ if (isset($_POST['submit'])) {
 							<input type="text" class="form-control" id="element_5" name="element_9" placeholder="" maxlength="255" value="">
 							<br>
 							<label for="inputPassword4">Name of Institution</label>
-							<input type="text" class="form-control" id="element_6" name="element_4" placeholder="St. Joseph's Institute of Technology" maxlength="255" value="">
+							<input type="text" class="form-control" id="element_4" name="element_4" placeholder="St. Joseph's Institute of Technology" maxlength="255" value="">
 							<br>
 							<label for="inputPassword4">Author Mobile</label>
-							<input type="text" class="form-control" id="element_7" name="element_5" placeholder="Ex: +919898989898" maxlength="255" value="">
+							<input type="text" class="form-control" id="element_5" name="element_5" placeholder="Ex: +919898989898" maxlength="255" value="">
 							<br>
 							<label for="inputState">Category</label>
-							<select id="inputState" class="form-control" name="element_1" onchange="showDiv('hidden_div',this)">
+							<select id="inputState" class="form-control" name="element_8" onchange="showDiv('hidden_div',this)">
 								<option value="1">STUDENT</option>
 								<option value="2">RESEARCH SCHOLAR</option>
 								<option value="3">ACADEMIA / R&D / INDUSTRY</option>
@@ -92,7 +91,7 @@ if (isset($_POST['submit'])) {
 							<input type="text" name="element_9" class="form-control" placeholder="Enter Coupon Code">
 							<br>
 							<label for="inputPassword4">Price</label>
-							<input type="number" name="element_9" class="form-control" placeholder="Enter Coupon Code" id="hidden_div" value=6500 readonly>
+							<input type="number" name="element_9" class="form-control" id="hidden_div" value=6500 readonly>
 							<input type="hidden" name="form_id" value="38599" />
 						</div>
 					</div>
@@ -110,13 +109,13 @@ if (isset($_POST['submit'])) {
 
 
 
-<head>
+<!-- <head>
 
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>ICRTBI2020 Registration</title>
-	<link rel="stylesheet" type="text/css" href="view.css" media="all">
+	<link rel="stylesheet" type="text/css" href="view.css" media="all"> -->
 	<!-- <link href="payment.css" rel="stylesheet" type="text/css"></link> -->
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 	<script type="text/javascript" src="view.js"></script>
@@ -134,8 +133,8 @@ if (isset($_POST['submit'])) {
 			list-style: none;
 		}
 	</style>
-</head>
-
+</head> -->
+<!-- 
 <body id="main_body">
 	<img id="top" src="top.png" alt="">
 	<div id="form_container">
@@ -195,7 +194,7 @@ if (isset($_POST['submit'])) {
 								<div>
 									<input id="element_5" name="element_5" class="element text medium" type="text" maxlength="255" value="" />
 								</div>
-							</li><br>
+							</li><br> -->
 							<!-- <li id="li_5" >
 		<label class="description" for="element_7">Category</label>
 		<div>
@@ -206,7 +205,7 @@ if (isset($_POST['submit'])) {
 		</div>
 		</li><br> -->
 
-
+<!-- 
 
 
 
@@ -228,7 +227,7 @@ if (isset($_POST['submit'])) {
 								</div>
 							</li><br>
 
-
+ -->
 
 
 							<!-- <li id="li_5">
@@ -251,7 +250,7 @@ if (isset($_POST['submit'])) {
 				</select>
 			</div>
 		</li><br> -->
-							<li id="li_5">
+							<!-- <li id="li_5">
 								<label class="description" for="element_1">Discount Coupon</label>
 								<div>
 									<input type="text" name="element_9" placeholder="Enter Coupon Code">
@@ -278,7 +277,7 @@ if (isset($_POST['submit'])) {
 				</div>
 			</div>
 
-		</form>
+		</form> -->
 
 		<!-- 
 <div style="text-align: center;background-color: lightgreen;border: 2px solid green;border-radius: 50px;color: green;font-weight: bold;font-size: 20px;padding: 20px;margin: 10px">Transaction Sucess</div> -->
@@ -315,7 +314,7 @@ if (isset($_POST['submit'])) {
 	<script type="text/javascript">
 		function showDiv(divId, element) {
 
-			var amount = [6500, 7000, 7500, 1500];
+			var amount = [5500, 6000, 6500, 1500];
 			document.getElementById(divId).value = element.value == 1 ? 0 : amount[element.value - 1];
 			document.getElementById(divId).value = element.value == 2 ? 0 : amount[element.value - 1];
 			document.getElementById(divId).value = element.value == 3 ? 0 : amount[element.value - 1];
