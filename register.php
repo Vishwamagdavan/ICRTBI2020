@@ -17,7 +17,7 @@ if (isset($_POST['submit'])) {
 	$amount=0;
 	if($ini_amount==1)
 	{
-		$amount=1;
+		$amount=5500;
 	}
 	else if($ini_amount==2)
 	{
@@ -64,7 +64,7 @@ if (isset($_POST['submit'])) {
 </head>
 
 <body>
-	<div class="container-fluid">
+	<div class="container-fluid" style="background-color:#9999ff; padding:20px;" >
 		<center>
 			<h1><a>5<sup>th</sup> International Conference on Recent Trends in Engineering and Technology</a></h1>
 		</center>
@@ -72,14 +72,16 @@ if (isset($_POST['submit'])) {
 			<h2>St. Joseph's Insitute of Technology, Chennai.</h2>
 		</center>
 	</div>
+	<br>
 	<div class="container">
 		<div class="row">
-			<div style="background-color: #e6e0e0" class="col-md-5">
+			<div class="col-md-2"></div>
+			<div style="background-color: #e6e0e0" class="col-md-8">
 				<br>
 				<h4>Details</h4>
 				<form id="form_38599" class="appnitro" enctype="multipart/form-data" method="post" action="">
 					<div class="form-row">
-						<div class="form-group col-md-10">
+						<div class="form-group col-md-8">
 							<label for="inputEmail4">Paper ID</label>
 							<input type="text" class="form-control" id="element_0" name="element_0" placeholder="Paper" maxlength="255" value="">
 							<br>
@@ -118,7 +120,7 @@ if (isset($_POST['submit'])) {
 							</select> -->
 							<br>
 							
-							<input type="checkbox" name="sem" value="1" checked="none">I would like to attend One Day Pre-Conference<br>
+							<input type="checkbox" name="sem" value="1">I would like to attend One Day Pre-Conference<br>
 							<br>
 							<label for="inputPassword4">Discount Coupon</label>
 							<input type="text" name="element_9" class="form-control" placeholder="Enter Coupon Code">
