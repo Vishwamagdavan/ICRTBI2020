@@ -52,71 +52,51 @@ if (isset($_POST['submit'])) {
 	<div class="container">
 		<div class="row">
 			<div style="background-color: #e6e0e0" class="col-md-5">
-			<br>
-			<h4>Details</h4>
-			<form id="form_38599" class="appnitro" enctype="multipart/form-data" method="post" action="">
+				<br>
+				<h4>Details</h4>
+				<form id="form_38599" class="appnitro" enctype="multipart/form-data" method="post" action="">
 					<div class="form-row">
 						<div class="form-group col-md-10">
 							<label for="inputEmail4">Paper ID</label>
-							<input type="text" class="form-control" id="element_0" placeholder="Paper" maxlength="255" value="">
+							<input type="text" class="form-control" id="element_0" name="element_0" placeholder="Paper" maxlength="255" value="">
 							<br>
 							<label for="inputPassword4">Paper title</label>
-							<input type="text" class="form-control" id="element_1" placeholder="Paper Title" maxlength="255" value="">
+							<input type="text" class="form-control" id="element_1" name="element_1" placeholder="Paper Title" maxlength="255" value="">
 							<br>
 							<label for="inputPassword4">Corresponding Author Name</label>
-							<input type="text" class="form-control" id="element_2" placeholder="Ex: John" maxlength="255" value="">
+							<input type="text" class="form-control" id="element_2" name="element_2" placeholder="Ex: John" maxlength="255" value="">
 							<br>
 							<label for="inputPassword4">Author Email</label>
-							<input type="email" class="form-control" id="element_3" placeholder="Ex: example@gmail.com" maxlength="255" value="">
+							<input type="email" class="form-control" id="element_3" name="element_3" placeholder="Ex: example@gmail.com" maxlength="255" value="">
+							<br>
+							<label for="inputPassword4">Affliation</label>
+							<input type="text" class="form-control" id="element_5" name="element_9" placeholder="" maxlength="255" value="">
 							<br>
 							<label for="inputPassword4">Name of Institution</label>
-							<input type="text" class="form-control" id="element_4" placeholder="St. Joseph's Institute of Technology" maxlength="255" value="">
+							<input type="text" class="form-control" id="element_6" name="element_4" placeholder="St. Joseph's Institute of Technology" maxlength="255" value="">
 							<br>
 							<label for="inputPassword4">Author Mobile</label>
-							<input type="text" class="form-control" id="element_5" placeholder="Ex: +919898989898" maxlength="255" value="">
-						</div>
-						<div class="form-group col-md-6">
-							
-						</div>
-						<div class="form-group col-md-6">
-							<label for="inputPassword4">Password</label>
-							<input type="password" class="form-control" id="inputPassword4">
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="inputAddress">Address</label>
-						<input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
-					</div>
-					<div class="form-group">
-						<label for="inputAddress2">Address 2</label>
-						<input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
-					</div>
-					<div class="form-row">
-						<div class="form-group col-md-6">
-							<label for="inputCity">City</label>
-							<input type="text" class="form-control" id="inputCity">
-						</div>
-						<div class="form-group col-md-4">
-							<label for="inputState">State</label>
-							<select id="inputState" class="form-control">
-								<option selected>Choose...</option>
-								<option>...</option>
+							<input type="text" class="form-control" id="element_7" name="element_5" placeholder="Ex: +919898989898" maxlength="255" value="">
+							<br>
+							<label for="inputState">Category</label>
+							<select id="inputState" class="form-control" name="element_1" onchange="showDiv('hidden_div',this)">
+								<option value="1">STUDENT</option>
+								<option value="2">RESEARCH SCHOLAR</option>
+								<option value="3">ACADEMIA / R&D / INDUSTRY</option>
+								<option value="4">LISTENER</option>
 							</select>
-						</div>
-						<div class="form-group col-md-2">
-							<label for="inputZip">Zip</label>
-							<input type="text" class="form-control" id="inputZip">
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="form-check">
-							<input class="form-check-input" type="checkbox" id="gridCheck">
-							<label class="form-check-label" for="gridCheck">
-								Check me out
-							</label>
+							<br>
+							<input type="checkbox" name="sem" value="1" onchange="check('hidden_div',this)">INCLUDE SEMINAR<br>
+							<br>
+							<label for="inputPassword4">Discount Coupon</label>
+							<input type="text" name="element_9" class="form-control" placeholder="Enter Coupon Code">
+							<br>
+							<label for="inputPassword4">Price</label>
+							<input type="number" name="element_9" class="form-control" placeholder="Enter Coupon Code" id="hidden_div" value=6500 readonly>
+							<input type="hidden" name="form_id" value="38599" />
 						</div>
 					</div>
-					<button type="submit" class="btn btn-primary">Sign in</button>
+					<button type="submit" id="saveForm" name="submit" value="Make Payment" class="btn btn-primary">Make Payment</button>
 				</form>
 			</div>
 		</div>
