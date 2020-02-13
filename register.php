@@ -1,38 +1,35 @@
 <?php
 session_start();
-$con = mysqli_connect("localhost", "root", "", "epushserver");
+$con = mysqli_connect("localhost", "u987684220_fdp", "admin@stjose", "u987684220_fdp");
 //require('config.php');
 // include('./httpful.phar');
-$arr=[];
-$certificate_array=[];
+$arr = [];
+$certificate_array = [];
 
 if (isset($_POST['submit'])) {
-	$certica=mt_rand(2,7);
-	$paper_id=$_POST['element_0'];
+	$certica = mt_rand(2, 7);
+	$paper_id = $_POST['element_0'];
 	$field_values_array = $_POST['field_name'];
-	$field_values_collge=$_POST['college_name'];
-	$i=count($field_values_array);
-	foreach($field_values_array as $value)
-	{
-		array_push($arr,$value);
+	$field_values_collge = $_POST['college_name'];
+	$i = count($field_values_array);
+	foreach ($field_values_array as $value) {
+		array_push($arr, $value);
 	}
-	foreach($field_values_collge as $college)
-	{
-		array_push($certificate_array,$college);
+	foreach ($field_values_collge as $college) {
+		array_push($certificate_array, $college);
 	}
-	for($j=0;$j<$i;$j++)
-	{
-		$certi_names=$arr[$j];
-		$certi_college=$certificate_array[$j];
+	for ($j = 0; $j < $i; $j++) {
+		$certi_names = $arr[$j];
+		$certi_college = $certificate_array[$j];
 		// echo $certi_college." ".$certi_names."<br>";
-		
-		$query_certificate="INSERT INTO icrtbi_certificate (paper_id,certi_names,certificate_num,certi_inst) VALUES ('$paper_id', '$certi_names','$certica','$certi_college')";
+
+		$query_certificate = "INSERT INTO icrtbi_certificate (paper_id,certi_names,certificate_num,certi_inst) VALUES ('$paper_id', '$certi_names','$certica','$certi_college')";
 		$query_run = mysqli_query($con, $query_certificate);
 	}
 
 	// foreach($field_values_array as $value){
 	// 	$certi_names=$field_values_array[$i/2];
-		
+
 	// 	$certi_college=$field_values_collge[$i/2];
 	// 	$query_certificate="INSERT INTO icrtbi_certificate (paper_id,certi_names,certi_inst) VALUES ('$paper_id', '$certi_names', '$certi_college')";
 	// 	$query_run = mysqli_query($con, $query_certificate);	
@@ -40,7 +37,7 @@ if (isset($_POST['submit'])) {
 	// 	$i++;
 	// }
 	$mtxnid = "ICRTBI2020" . mt_rand();
-	
+
 	$name = $_POST['element_2'];
 	$designation = $_POST['element_1'];
 	$email = $_POST['element_3'];
@@ -48,7 +45,7 @@ if (isset($_POST['submit'])) {
 	$mobile = $_POST['element_5'];
 	$ini_amount = $_POST['element_8'];
 	//$seminar_status=$_POST['sem'];
-	$discount=$_POST['element_9'];
+	$discount = $_POST['element_9'];
 	$amount = 0;
 	if ($ini_amount == 1) {
 		$amount = 5500;
@@ -59,20 +56,21 @@ if (isset($_POST['submit'])) {
 	} else {
 		$amount = 1500;
 	}
-	$submited_date=time();
-	$extra_amount = $amount+300*($i);
+	$submited_date = time();
+	// $extra_amount = 1;
+	$extra_amount = $amount + 300 * ($i);
 	// if($extra_amount==1)
 	// 	$extra_amount=$amount;
 	// else
 	// 	$extra_amount=$amount+500;
-	$sql="INSERT INTO `icrtbi_register` (`id`, `paper_id`, `name`, `email`, `paper_title`, `org`, `payment`, `payment_status`, `payment_time`, `mobile`, `category`, `conf_status`, `certificate_num`, `submit_date`, `payment_id`) VALUES 
+	$sql = "INSERT INTO `icrtbi_register` (`id`, `paper_id`, `name`, `email`, `paper_title`, `org`, `payment`, `payment_status`, `payment_time`, `mobile`, `category`, `conf_status`, `certificate_num`, `submit_date`, `payment_id`) VALUES 
 	(NULL, '$paper_id', '$name', '$email', '$designation', '$institute', '$extra_amount', 'no', 'no', '$mobile', '$ini_amount', 'yes', '$certica', '$submited_date', '$mtxnid')";
 	mysqli_query($con, $sql);
 
 	$_SESSION['mtxnid'] = $mtxnid;
 
 
-	 header("Location: https://portal.stjosephstechnology.ac.in/sendPost.jsp?RUrl=https://portal.stjosephstechnology.ac.in/TechProcess?auth=fluffy%26amount=$extra_amount%26user=ICRTET%26custid=$name%26refno=$mtxnid%26returnURL=http://icrtbi2020.stjosephstechnology.ac.in/register.php", TRUE, 307);
+	header("Location: https://portal.stjosephstechnology.ac.in/sendPost.jsp?RUrl=https://portal.stjosephstechnology.ac.in/TechProcess?auth=fluffy%26amount=$extra_amount%26user=ICRTET%26custid=$name%26refno=$mtxnid%26returnURL=http://icrtbi2020.stjosephstechnology.ac.in/register.php", TRUE, 307);
 }
 
 ?>
@@ -160,6 +158,40 @@ if (isset($_POST['submit'])) {
 	<br>
 	<div class="container">
 		<div class="row">
+		<?php
+if (isset($_GET['msg'])) {
+	$id = $_SESSION['mtxnid'];
+	$message = $_GET['msg'];
+	$payment_time=time();
+	$ref = $_GET['msg'];
+	$ref = json_decode($ref, true);
+	if (strcmp($message, 'Transaction Failed') == 0) {
+		$query = "UPDATE icrtbi_register set payment_status='failed' WHERE payment_id='$id'";
+		$query_run = mysqli_query($con, $query);
+?>
+		<div style="text-align: center;background-color:#ff9999 ;border: 2px solid red;border-radius: 50px;color: red;font-weight: bold;font-size: 20px;padding: 20px;margin: 10px">Payment Failed</div>
+	<?php
+	} else {
+		$query = "UPDATE icrtbi_register set payment_status='success',payment_time='$payment_time' WHERE payment_id='$id'";
+		$query_run = mysqli_query($con, $query); ?>
+		<div style="text-align: center;background-color: lightgreen;border: 2px solid green;border-radius: 50px;color: green;font-weight: bold;font-size: 20px;padding: 20px;margin: 10px">Payment Sucess<br>
+			<h4>St. Joseph's Institute of Technology<br>OMR,Chennai -119<br>5<sup>th</sup>International Conference on Recent Trends in Big Data and IoT</h4>
+			<br>
+			Paper ID: <?php echo $paper_id;?><br>
+			Paper Title: <?php echo $designation?><br>
+			Name of Instution:<?php echo $institute?><br>
+			Your Ref Id : <?php echo $ref['refno']; ?><br>
+			Amount Paid : <?php echo $ref['amount']; ?>
+		</div>
+
+<?php }
+}
+
+?>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
 			<div class="col-md-2"></div>
 			<div style="background-color: #e6e0e0" class="col-md-8">
 				<br>
@@ -185,7 +217,7 @@ if (isset($_POST['submit'])) {
 							<input type="text" class="form-control" id="element_5" name="element_9" placeholder="" maxlength="255" value="">
 							<br> -->
 							<br>
-							<label for="inputPassword4">Name of Institution</label>
+							<label for="inputPassword4">Name of Institution/ Organisation</label>
 							<input type="text" class="form-control" id="element_4" name="element_4" placeholder="St. Joseph's Institute of Technology" maxlength="255" value="">
 							<br>
 							<!-- <label for="inputPassword4">Corresponding Author Mobile</label>
@@ -216,12 +248,12 @@ if (isset($_POST['submit'])) {
 							<div class="field_wrapper">
 								<div>
 									<label for="">Certificate</label><br>
-									<input  type="text" name="field_name[]" value="" placeholder="Applicant name" />
-									<input  type="text" name="college_name[]" placeholder="Institution Name">
-									<a href="javascript:void(0);" class="add_button" title="Add field" onclick="check('hidden_div',this)" ><i class="fa fa-plus" aria-hidden="true"></i></a>
+									<input type="text" name="field_name[]" value="" placeholder="Applicant name" />
+									<input type="text" name="college_name[]" placeholder="Institution Name">
+									<a href="javascript:void(0);" class="add_button" title="Add field" onclick="check('hidden_div',this)"><i class="fa fa-plus" aria-hidden="true"></i></a>
 								</div>
 							</div>
-							
+
 							<br>
 							<label for="inputPassword4">Price</label>
 							<input type="number" name="element_10" class="form-control" id="hidden_div" value=5500 readonly>
@@ -412,34 +444,8 @@ if (isset($_POST['submit'])) {
 <!-- 
 <div style="text-align: center;background-color: lightgreen;border: 2px solid green;border-radius: 50px;color: green;font-weight: bold;font-size: 20px;padding: 20px;margin: 10px">Transaction Sucess</div> -->
 
-<?php
-if (isset($_GET['msg'])) {
-	$id = $_SESSION['mtxnid'];
-	$message = $_GET['msg'];
-	$payment_time=time();
-	$ref = $_GET['msg'];
-	$ref = json_decode($ref, true);
-	if (strcmp($message, 'Transaction Failed') == 0) {
-		$query = "UPDATE icrtbi_register set payment_status='failed' WHERE payment_id='$id'";
-		$query_run = mysqli_query($con, $query);
-?>
-		<div style="text-align: center;background-color:#ff9999 ;border: 2px solid red;border-radius: 50px;color: red;font-weight: bold;font-size: 20px;padding: 20px;margin: 10px">Payment Failed</div>
-	<?php
-	} else {
-		$query = "UPDATE icrtbi_register set payment_status='success',payment_time='$payment_time' WHERE payment_id='$id'";
-		$query_run = mysqli_query($con, $query); ?>
-		<div style="text-align: center;background-color: lightgreen;border: 2px solid green;border-radius: 50px;color: green;font-weight: bold;font-size: 20px;padding: 20px;margin: 10px">Payment Sucess<br>
-			Your Ref Id : <?php echo $ref['refno']; ?><br>
-			Amount Paid : <?php echo $ref['amount']; ?>
-		</div>
-
-<?php }
-}
-
-?>
 </div>
 <script type="text/javascript">
-
 	function showDiv(divId, element) {
 		var amount = [5500, 6000, 6500, 1500];
 		document.getElementById(divId).value = element.value == 1 ? 0 : amount[element.value - 1];
@@ -448,47 +454,46 @@ if (isset($_GET['msg'])) {
 		document.getElementById(divId).value = element.value == 4 ? 0 : amount[element.value - 1];
 		var number = document.getElementById(divId).value = element.value == 4 ? 1500 : amount[element.value - 1];
 	}
-	var count=5,i=0;
+	var count = 5,
+		i = 0;
+
 	function check(divId, element) {
-		if(i<count)
-		{
+		if (i < count) {
 			var amt = parseInt(document.getElementById(divId).value);
-		document.getElementById(divId).value = amt + 300;
-		console.log(amt);
-		i++;
+			document.getElementById(divId).value = amt + 300;
+			console.log(amt);
+			i++;
 		}
-		
-	}
-		function check_minus()
-	{
-		var amt = parseInt(document.getElementById('hidden_div').value);
-		document.getElementById('hidden_div').value = amt - 300;
-		
-		if(i==0)
-		{
-			i=i;
-		}
-		else
-		i--;
 
 	}
-	
+
+	function check_minus() {
+		var amt = parseInt(document.getElementById('hidden_div').value);
+		document.getElementById('hidden_div').value = amt - 300;
+
+		if (i == 0) {
+			i = i;
+		} else
+			i--;
+
+	}
+
 	$(document).ready(function() {
 		var maxField = 5; //Input fields increment limitation
 		var addButton = $('.add_button'); //Add button selector
 		var wrapper = $('.field_wrapper'); //Input field wrapper 
 		var fieldHTML = '<div><input placeholder="Name" type="text" name="field_name[]" value=""/>	<input type="text" name="college_name[]" placeholder="Institution Name"><a href="javascript:void(0);"  class="remove_button" onclick="check_minus()"><i class="fa fa-minus"  aria-hidden="true" style="padding:5px;"></i></a></div>'; //New input field html 
 		var x = 1; //Initial field counter is 1
-		
+
 		//Once add button is clicked
 		$(addButton).click(function() {
 			//Check maximum number of input fields
-			
-			if (x <maxField) {
+
+			if (x < maxField) {
 				x++; //Increment field counter
 				$(wrapper).append(fieldHTML); //Add field html
 			}
-			
+
 		});
 
 		//Once remove button is clicked
@@ -497,7 +502,7 @@ if (isset($_GET['msg'])) {
 			$(this).parent('div').remove(); //Remove field html
 			x--; //Decrement field counter
 		});
-		
+
 		console.log(x);
 	});
 </script>
