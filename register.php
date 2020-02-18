@@ -1,9 +1,9 @@
 <?php
 session_start();
 
-$con = mysqli_connect("localhost", "u987684220_fdp", "admin@stjose", "u987684220_fdp");
+//$con = mysqli_connect("localhost", "u987684220_fdp", "admin@stjose", "u987684220_fdp");
 
-//$con = mysqli_connect("localhost", "root", "", "epushserver");
+$con = mysqli_connect("localhost", "root", "", "epushserver");
 //require('config.php');
 // include('./httpful.phar');
 $arr = [];
@@ -51,7 +51,7 @@ if (isset($_POST['submit'])) {
 	$discount = $_POST['element_9'];
 	$amount = 0;
 	if ($ini_amount == 1) {
-		$amount = 1;
+		$amount = 6000;
 	} else if ($ini_amount == 2) {
 		$amount = 6500;
 	} else if ($ini_amount == 3) {
@@ -61,15 +61,12 @@ if (isset($_POST['submit'])) {
 	}
 	$submited_date = time();
 	// $extra_amount = 1;
-	if($i==1)
-	{
-		$extra_amount=$amount;
-	}
-	else
-	{
+	if ($i == 1) {
+		$extra_amount = $amount;
+	} else {
 		$extra_amount = $amount + 300 * ($i);
 	}
-	
+
 	// if($extra_amount==1)
 	// 	$extra_amount=$amount;
 	// else
@@ -79,7 +76,7 @@ if (isset($_POST['submit'])) {
 	mysqli_query($con, $sql);
 
 	$_SESSION['mtxnid'] = $mtxnid;
-	header("Location: https://portal.stjosephstechnology.ac.in/sendPost.jsp?RUrl=https://portal.stjosephstechnology.ac.in/TechProcess?auth=fluffy%26amount=$extra_amount%26user=ICRTET%26custid=$name%26refno=$mtxnid%26returnURL=http://icrtbi2020.stjosephstechnology.ac.in/register.php", TRUE, 307);
+	header("Location: https://portal.stjosephstechnology.ac.in/sendPost.jsp?RUrl=https://portal.stjosephstechnology.ac.in/TechProcess?auth=fluffy%26amount=$extra_amount%26user=ICRTET%26custid=$name%26refno=$mtxnid%26returnURL=http://localhost/ICRTBI2020/register.php", TRUE, 307);
 }
 
 ?>
@@ -165,141 +162,150 @@ if (isset($_POST['submit'])) {
 
 	</div>
 	<br>
-
-
+	
 	<div class="container">
-		<div class="row">
-			<?php
-			if (isset($_GET['msg'])) {
-				$id = $_SESSION['mtxnid'];
-				$message = $_GET['msg'];
-				$payment_time = time();
-				$ref = $_GET['msg'];
-				$ref = json_decode($ref, true);
-				if (strcmp($message, 'Transaction Failed') == 0) {
-					$query = "UPDATE icrtbi_register set payment_status='failed' WHERE payment_id='$id'";
-					$query_run = mysqli_query($con, $query);
-			?>
-					<div style="text-align: center;background-color:#ff9999 ;border: 2px solid red;border-radius: 50px;color: red;font-weight: bold;font-size: 20px;padding: 20px;margin: 10px">Payment Failed</div>
-				<?php
-				} else {
-					$query = "UPDATE icrtbi_register set payment_status='success',payment_time='$payment_time' WHERE payment_id='$id'";
-					$query_run = mysqli_query($con, $query);
-					$query_1 = "SELECT * FROM icrtbi_register WHERE payment_id='$id' AND payment_status='success'"; //Fetch the data from Local DB
-					$run_query = mysqli_query($con, $query_1);
-					while ($row = mysqli_fetch_array($run_query)) {
-						$paper_id = $row['paper_id'];
-						$designation = $row['paper_title'];
-						$institution = $row['org'];
-					}
+		<?php
+		if (isset($_GET['msg'])) {
+			$id = $_SESSION['mtxnid'];
+			$message = $_GET['msg'];
+			$payment_time = time();
+			$ref = $_GET['msg'];
+			$ref = json_decode($ref, true);
+			if (strcmp($message, 'Transaction Failed') != 0) {
+				$query = "UPDATE icrtbi_register set payment_status='failed' WHERE payment_id='$id'";
+				$query_run = mysqli_query($con, $query);
+		?>
+				<div class="container">
+					<div class="row">
+					<div class="col-md-2">
 
-				?>
-					<div style="text-align: center;background-color: lightgreen;border: 2px solid green;border-radius: 50px;color: green;font-weight: bold;font-size: 20px;padding: 20px;margin: 10px">Payment Sucess<br>
-						<div class="container">
-							<div class="row">
-								<div class="col-md-4">
-
-								</div>
-								<div class="col-md-10">
-									<?php
-									$query_1 = "SELECT * FROM icrtbi_register WHERE payment_id='$id' AND payment_status='success'"; //Fetch the data from Local DB
-									$run_query = mysqli_query($con, $query_1);
-									while ($row = mysqli_fetch_array($run_query)) {
-										$paper_id = $row['paper_id'];
-										$designation = $row['paper_title'];
-										$institution = $row['org'];
-									}
-									?>
-									<div class="table" style="width: 50%;">
-										<table class="table table-bordered">
-											<tbody>
-												<tr>
-													<td>
-														<strong>Your Ref Id :</strong>
-													</td>
-													<td>
-														<?php echo $ref['refno']; ?>
-													</td>
-												</tr>
-												<tr>
-													<td>
-														<strong>Amount Paid :</strong>
-													</td>
-													<td>
-														<?php echo $ref['amount']; ?>
-													</td>
-												</tr>
-												<tr>
-													<td>
-														<strong>Payment Status</strong>
-													</td>
-													<td>
-														<?php echo $ref['amount']; ?>
-													</td>
-												</tr>
-												<tr>
-													<td>
-														<strong>Paper ID:</strong>
-													</td>
-													<td>
-														<?php echo $paper_id; ?>
-													</td>
-												</tr>
-												<tr>
-													<td>
-														<strong>Paper Title:</strong>
-													</td>
-													<td><?php echo $designation ?>
-													</td>
-												</tr>
-												<tr>
-													<td>
-														<strong>Name of Instution:</strong>
-													</td>
-													<td>
-														<?php echo $institution ?>
-													</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-									<h4>Certificate For:</h4>
-									<div class="table" style="width: 50%;">
-										<table class="table table-bordered">
-											<thead>
-												<tr>
-													<th>Name</th>
-													<th>Institution</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<?php
-													if (mysqli_affected_rows($con) != 0) {
-														$query_2 = "SELECT * FROM icrtbi_certificate,icrtbi_register WHERE icrtbi_register.paper_id=icrtbi_certificate.paper_id AND icrtbi_certificate.paper_id='$paper_id'"; //Query for Fetching the Certificates details
-														$result = mysqli_query($con, $query_2);
-														while ($row1 = mysqli_fetch_array($result)) {
-															echo "<td>" . $row1['certi_names'] . "</td>";
-															echo "<td>" . $row1['certi_inst'] . "</td>";
-															echo "<tr>";
-														}
-													} else {
-														echo "No Data Available!";
-													} ?>
-											</tbody>
-										</table>
-									</div>
-								</div>
-							</div>
-						</div>
+</div>
+<div class="col-md-8">
+								<h1 style="background-color:red; padding:4px; border-radius:5px; text-align:center; color:whitesmoke;">Payment Failed</h1>
+</div>
 					</div>
+				</div>
 
-
-			<?php }
-			}
+			<?php
+			} else if(strcmp($message, 'Transaction Failed') == 0) {
+				$query = "UPDATE icrtbi_register set payment_status='success',payment_time='$payment_time' WHERE payment_id='1001'";
+				$query_run = mysqli_query($con, $query);
+				$query_1 = "SELECT * FROM icrtbi_register WHERE payment_id='$id' AND payment_status='success'"; //Fetch the data from Local DB
+				$run_query = mysqli_query($con, $query_1);
+				while ($row = mysqli_fetch_array($run_query)) {
+					$paper_id = $row['paper_id'];
+					$designation = $row['paper_title'];
+					$institution = $row['org'];
+				
+				}
 
 			?>
+			<div class="container">
+		<div class="row">
+			<div class="col-md-2">
+
+			</div>
+			<div class="col-md-8" style="border-radius:3px;">
+				<?php
+				$query_1 = "SELECT * FROM icrtbi_register WHERE payment_id='ICRTBI202033777947' AND payment_status='success'"; //Fetch the data from Local DB
+				$run_query = mysqli_query($con, $query_1);
+				while ($row = mysqli_fetch_array($run_query)) {
+					$paper_id = $row['paper_id'];
+					$designation = $row['paper_title'];
+					$institution = $row['org'];
+					$payment=$row['payment_status'];
+				}
+				?>
+				<h3>Payment Success</h3>
+				<div class="table">
+					<table class="table table-bordered">
+						<tbody>
+							<tr>
+								<td>
+									<strong>Your Ref Id :</strong>
+								</td>
+								<td>
+									<?php echo $ref['refno']; ?>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<strong>Amount Paid :</strong>
+								</td>
+								<td>
+									<?php echo $ref['amount']; ?>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<strong>Payment Status:</strong>
+								</td>
+								<td>
+									<?php echo $payment; ?>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<strong>Paper ID:</strong>
+								</td>
+								<td>
+									<?php echo $paper_id; ?>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<strong>Paper Title:</strong>
+								</td>
+								<td><?php echo $designation ?>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<strong>Name of Instution:</strong>
+								</td>
+								<td>
+									<?php echo $institution ?>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<h4>Certificate For:</h4>
+				<div class="table">
+					<table class="table table-bordered">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Institution</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<?php
+								if (mysqli_affected_rows($con) != 0) {
+									$query_2 = "SELECT * FROM icrtbi_certificate,icrtbi_register WHERE icrtbi_register.paper_id=icrtbi_certificate.paper_id AND icrtbi_certificate.paper_id='1001'"; //Query for Fetching the Certificates details
+									$result = mysqli_query($con, $query_2);
+									while ($row1 = mysqli_fetch_array($result)) {
+										echo "<td>" . $row1['certi_names'] . "</td>";
+										echo "<td>" . $row1['certi_inst'] . "</td>";
+										echo "<tr>";
+									}
+								} else {
+									echo "No Data Available!";
+								} ?>
+						</tbody>
+					</table>
+				</div>
+			</div>
 		</div>
+	</div>
+
+
+
+		<?php }
+		}
+
+		?>
 	</div>
 	<div class="container">
 		<div class="row">
@@ -558,7 +564,7 @@ if (isset($_POST['submit'])) {
 </div>
 <script type="text/javascript">
 	function showDiv(divId, element) {
-		var amount = [5500, 6000, 6500, 1500];
+		var amount = [6000, 6500, 7000, 1500];
 		document.getElementById(divId).value = element.value == 1 ? 0 : amount[element.value - 1];
 		document.getElementById(divId).value = element.value == 2 ? 0 : amount[element.value - 1];
 		document.getElementById(divId).value = element.value == 3 ? 0 : amount[element.value - 1];
