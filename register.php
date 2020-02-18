@@ -1,9 +1,9 @@
 <?php
 session_start();
 
-//$con = mysqli_connect("localhost", "u987684220_fdp", "admin@stjose", "u987684220_fdp");
+$con = mysqli_connect("localhost", "u987684220_fdp", "admin@stjose", "u987684220_fdp");
 
-$con = mysqli_connect("localhost", "root", "", "epushserver");
+//$con = mysqli_connect("localhost", "root", "", "epushserver");
 //require('config.php');
 // include('./httpful.phar');
 $arr = [];
@@ -76,7 +76,7 @@ if (isset($_POST['submit'])) {
 	mysqli_query($con, $sql);
 
 	$_SESSION['mtxnid'] = $mtxnid;
-	header("Location: https://portal.stjosephstechnology.ac.in/sendPost.jsp?RUrl=https://portal.stjosephstechnology.ac.in/TechProcess?auth=fluffy%26amount=$extra_amount%26user=ICRTET%26custid=$name%26refno=$mtxnid%26returnURL=http://localhost/ICRTBI2020/register.php", TRUE, 307);
+	header("Location: https://portal.stjosephstechnology.ac.in/sendPost.jsp?RUrl=https://portal.stjosephstechnology.ac.in/TechProcess?auth=fluffy%26amount=$extra_amount%26user=ICRTET%26custid=$name%26refno=$mtxnid%26returnURL=http://icrtbi2020.stjosephstechnology.ac.in/register.php", TRUE, 307);
 }
 
 ?>
@@ -171,7 +171,7 @@ if (isset($_POST['submit'])) {
 			$payment_time = time();
 			$ref = $_GET['msg'];
 			$ref = json_decode($ref, true);
-			if (strcmp($message, 'Transaction Failed') != 0) {
+			if (strcmp($message, 'Transaction Failed') == 0) {
 				$query = "UPDATE icrtbi_register set payment_status='failed' WHERE payment_id='$id'";
 				$query_run = mysqli_query($con, $query);
 		?>
@@ -187,8 +187,8 @@ if (isset($_POST['submit'])) {
 				</div>
 
 			<?php
-			} else if(strcmp($message, 'Transaction Failed') == 0) {
-				$query = "UPDATE icrtbi_register set payment_status='success',payment_time='$payment_time' WHERE payment_id='1001'";
+			} else {
+				$query = "UPDATE icrtbi_register set payment_status='success',payment_time='$payment_time' WHERE payment_id='$id'";
 				$query_run = mysqli_query($con, $query);
 				$query_1 = "SELECT * FROM icrtbi_register WHERE payment_id='$id' AND payment_status='success'"; //Fetch the data from Local DB
 				$run_query = mysqli_query($con, $query_1);
@@ -207,7 +207,7 @@ if (isset($_POST['submit'])) {
 			</div>
 			<div class="col-md-8" style="border-radius:3px;">
 				<?php
-				$query_1 = "SELECT * FROM icrtbi_register WHERE payment_id='ICRTBI202033777947' AND payment_status='success'"; //Fetch the data from Local DB
+				$query_1 = "SELECT * FROM icrtbi_register WHERE payment_id='$id' AND payment_status='success'"; //Fetch the data from Local DB
 				$run_query = mysqli_query($con, $query_1);
 				while ($row = mysqli_fetch_array($run_query)) {
 					$paper_id = $row['paper_id'];
@@ -283,7 +283,7 @@ if (isset($_POST['submit'])) {
 							<tr>
 								<?php
 								if (mysqli_affected_rows($con) != 0) {
-									$query_2 = "SELECT * FROM icrtbi_certificate,icrtbi_register WHERE icrtbi_register.paper_id=icrtbi_certificate.paper_id AND icrtbi_certificate.paper_id='1001'"; //Query for Fetching the Certificates details
+									$query_2 = "SELECT * FROM icrtbi_certificate,icrtbi_register WHERE icrtbi_register.paper_id=icrtbi_certificate.paper_id AND icrtbi_certificate.paper_id='$paper_id'"; //Query for Fetching the Certificates details
 									$result = mysqli_query($con, $query_2);
 									while ($row1 = mysqli_fetch_array($result)) {
 										echo "<td>" . $row1['certi_names'] . "</td>";
@@ -363,9 +363,9 @@ if (isset($_POST['submit'])) {
 							<input type="text" name="element_9" class="form-control" placeholder="Enter Coupon Code">
 							<br>
 							<div class="field_wrapper">
-								<div>
+								<div class="form-group">
 									<label for="">Certificate</label><br>
-									<input type="text" name="field_name[]" value="" placeholder="Applicant name" />
+									<input type="text"name="field_name[]" value="" placeholder="Applicant name" />
 									<input type="text" name="college_name[]" placeholder="Institution Name">
 									<a href="javascript:void(0);" class="add_button" title="Add field" onclick="check('hidden_div',this)"><i class="fa fa-plus" aria-hidden="true"></i></a>
 								</div>
