@@ -10,9 +10,7 @@ $arr = [];
 $certificate_array = [];
 
 if (isset($_POST['submit'])) {
-	$payment_method_value=$_POST['submit'];
-	print_r($payment_method_value);
-	$certica = mt_rand(2, 7);
+	$certica = mt_rand(2, 9999);
 	$paper_id = $_POST['element_0'];
 	$field_values_array = $_POST['field_name'];
 	$field_values_collge = $_POST['college_name'];
@@ -69,24 +67,42 @@ if (isset($_POST['submit'])) {
 		$extra_amount = $amount + 300 * ($i);
 	}
 
+	//NIFT Payment Work Start here //
+	$payment_method_value = $_POST['submit'];
+	if (strcmp($payment_method_value, "NIRF") == 0) {
+		$bank_branch = $_POST['nift-bank'];
+		$nift_payment_date = $_POST['nift-payment-date'];
+		$nift_ref = $_POST['nift-ref'];
+		$nift_amount = $_POST['nift-amount'];
+		print_r($bank_branch);
+		$sql = "INSERT INTO `icrtbi_register` (`id`, `paper_id`, `name`, `email`, `paper_title`, `org`, `payment`, `payment_status`, `payment_time`, `mobile`, `category`, `conf_status`, `certificate_num`, `submit_date`, `payment_id`) VALUES 
+	(NULL, '$paper_id', '$name', '$email', '$designation', '$institute', '$nift_amount', 'no', '$bank_branch', '$mobile', '$ini_amount', 'yes', '$certica', '$nift_payment_date', '$nift_ref')";
+	mysqli_query($con, $sql);
+	}
+
+	//NIFT Payment Work Ends here//
+
+
 	// if($extra_amount==1)
 	// 	$extra_amount=$amount;
 	// else
 	// 	$extra_amount=$amount+500;
-	$sql = "INSERT INTO `icrtbi_register` (`id`, `paper_id`, `name`, `email`, `paper_title`, `org`, `payment`, `payment_status`, `payment_time`, `mobile`, `category`, `conf_status`, `certificate_num`, `submit_date`, `payment_id`) VALUES 
-	(NULL, '$paper_id', '$name', '$email', '$designation', '$institute', '$extra_amount', 'no', 'no', '$mobile', '$ini_amount', 'yes', '$certica', '$submited_date', '$mtxnid')";
-	mysqli_query($con, $sql);
-	if(strcmp($payment_method_value,"NIRF")==0)
-	{
-		header("Location: register.php");
-	}
+
 	else
 	{
-		
-	$_SESSION['mtxnid'] = $mtxnid;
-	header("Location: https://portal.stjosephstechnology.ac.in/sendPost.jsp?RUrl=https://portal.stjosephstechnology.ac.in/TechProcess?auth=fluffy%26amount=$extra_amount%26user=ICRTET%26custid=$name%26refno=$mtxnid%26returnURL=http://icrtbi2020.stjosephstechnology.ac.in/register.php", TRUE, 307);
-
+		$sql = "INSERT INTO `icrtbi_register` (`id`, `paper_id`, `name`, `email`, `paper_title`, `org`, `payment`, `payment_status`, `payment_time`, `mobile`, `category`, `conf_status`, `certificate_num`, `submit_date`, `payment_id`) VALUES 
+	(NULL, '$paper_id', '$name', '$email', '$designation', '$institute', '$extra_amount', 'no', 'no', '$mobile', '$ini_amount', 'yes', '$certica', '$submited_date', '$mtxnid')";
+	mysqli_query($con, $sql);
+	
 	}
+	if (strcmp($payment_method_value, "NIRF") == 0) {
+		header("Location: message.php");
+	} else {
+
+		$_SESSION['mtxnid'] = $mtxnid;
+		header("Location: https://portal.stjosephstechnology.ac.in/sendPost.jsp?RUrl=https://portal.stjosephstechnology.ac.in/TechProcess?auth=fluffy%26amount=$extra_amount%26user=ICRTET%26custid=$name%26refno=$mtxnid%26returnURL=http://icrtbi2020.stjosephstechnology.ac.in/register.php", TRUE, 307);
+	}
+	
 }
 
 ?>
@@ -396,31 +412,31 @@ if (isset($_POST['submit'])) {
 									NEFT/RTGS/IMPS
 								</a>
 								<a class="btn btn-primary" data-toggle="collapse" href="#collapseOnlinePayment" role="button" aria-expanded="false" aria-controls="collapseExample">
-								Online Payment Credit Card / Debit Card
+									Online Payment Credit Card / Debit Card
 								</a>
 							</p>
 							<div class="collapse" id="collapseExample">
 								<div class="card card-body">
-								<label for="nift-payment-date" id="nift">Date of Payment</label>
-								<input type="date" class="form-control" id="nift" style="width: 200px" name="nift-payment-date">
-								<br>
-								<label for="nift-bank" id="nift">Bank & Branch</label>
-								<input type="text" id="nift" placeholder="INDIAN BANK,JEPPIAAR ENGINEERINGCOLLEGE SEMMENCHERR CHENNAI" name="nift-bank" class="form-control">
-								<br>
-								<label for="nift-ref" id="nift">Ref.no</label>
-								<input type="text" id="nift" placeholder="Ref. Number" class="form-control" name="nift-ref">
-								<br>
-								<label id="nift" for="nift-amount">Amount Paid</label>
-								<input id="nift" type="text" placeholder="RS.6000" class="form-control" name="nift-amount">
+									<label for="nift-payment-date" id="nift">Date of Payment</label>
+									<input type="date" class="form-control" id="nift" style="width: 200px" name="nift-payment-date">
+									<br>
+									<label for="nift-bank" id="nift">Bank & Branch</label>
+									<input type="text" id="nift" placeholder="INDIAN BANK,JEPPIAAR ENGINEERINGCOLLEGE SEMMENCHERR CHENNAI" name="nift-bank" class="form-control">
+									<br>
+									<label for="nift-ref" id="nift">Ref.no</label>
+									<input type="text" id="nift" placeholder="Ref. Number" class="form-control" name="nift-ref">
+									<br>
+									<label id="nift" for="nift-amount">Amount Paid</label>
+									<input id="nift" type="text" placeholder="RS.6000" class="form-control" name="nift-amount">
 								</div>
 								<button type="submit" id="saveForm" name="submit" value="NIRF" class="btn btn-primary">Register</button>
 							</div>
 
 							<br>
 							<div class="collapse" id="collapseOnlinePayment">
-							<button type="submit" id="saveForm" name="submit" value="Payment" class="btn btn-primary">Register</button>
+								<button type="submit" id="saveForm" name="submit" value="Payment" class="btn btn-primary">Register</button>
 							</div>
-							
+
 						</div>
 					</div>
 
