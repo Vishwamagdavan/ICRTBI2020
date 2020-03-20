@@ -10,6 +10,8 @@ $arr = [];
 $certificate_array = [];
 
 if (isset($_POST['submit'])) {
+	$payment_method_value=$_POST['submit'];
+	print_r($payment_method_value);
 	$certica = mt_rand(2, 7);
 	$paper_id = $_POST['element_0'];
 	$field_values_array = $_POST['field_name'];
@@ -74,9 +76,17 @@ if (isset($_POST['submit'])) {
 	$sql = "INSERT INTO `icrtbi_register` (`id`, `paper_id`, `name`, `email`, `paper_title`, `org`, `payment`, `payment_status`, `payment_time`, `mobile`, `category`, `conf_status`, `certificate_num`, `submit_date`, `payment_id`) VALUES 
 	(NULL, '$paper_id', '$name', '$email', '$designation', '$institute', '$extra_amount', 'no', 'no', '$mobile', '$ini_amount', 'yes', '$certica', '$submited_date', '$mtxnid')";
 	mysqli_query($con, $sql);
-
+	if(strcmp($payment_method_value,"NIRF")==0)
+	{
+		header("Location: register.php");
+	}
+	else
+	{
+		
 	$_SESSION['mtxnid'] = $mtxnid;
 	header("Location: https://portal.stjosephstechnology.ac.in/sendPost.jsp?RUrl=https://portal.stjosephstechnology.ac.in/TechProcess?auth=fluffy%26amount=$extra_amount%26user=ICRTET%26custid=$name%26refno=$mtxnid%26returnURL=http://icrtbi2020.stjosephstechnology.ac.in/register.php", TRUE, 307);
+
+	}
 }
 
 ?>
@@ -93,6 +103,9 @@ if (isset($_POST['submit'])) {
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<script src="https://use.fontawesome.com/87bc9ef760.js"></script>
@@ -162,7 +175,7 @@ if (isset($_POST['submit'])) {
 
 	</div>
 	<br>
-	
+
 	<div class="container">
 		<?php
 		if (isset($_GET['msg'])) {
@@ -177,13 +190,13 @@ if (isset($_POST['submit'])) {
 		?>
 				<div class="container">
 					<div class="row">
-					<div class="col-md-2">
+						<div class="col-md-2">
 
-</div>
-<div class="col-md-8">
-								<h1 style="background-color:red; padding:4px; border-radius:5px; text-align:center; color:whitesmoke;">Payment Failed</h1>
-								<a href="http://icrtbi2020.stjosephstechnology.ac.in/register.php" style="color:white;">Try Again</a>
-</div>
+						</div>
+						<div class="col-md-8">
+							<h1 style="background-color:red; padding:4px; border-radius:5px; text-align:center; color:whitesmoke;">Payment Failed</h1>
+							<a href="http://icrtbi2020.stjosephstechnology.ac.in/register.php" style="color:white;">Try Again</a>
+						</div>
 					</div>
 				</div>
 
@@ -197,109 +210,108 @@ if (isset($_POST['submit'])) {
 					$paper_id = $row['paper_id'];
 					$designation = $row['paper_title'];
 					$institution = $row['org'];
-				
 				}
 
 			?>
-			<div class="container">
-		<div class="row">
-			<div class="col-md-2">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-2">
 
-			</div>
-			<div class="col-md-8" style="border-radius:3px;">
-				<?php
-				$query_1 = "SELECT * FROM icrtbi_register WHERE payment_id='$id' AND payment_status='success'"; //Fetch the data from Local DB
-				$run_query = mysqli_query($con, $query_1);
-				while ($row = mysqli_fetch_array($run_query)) {
-					$paper_id = $row['paper_id'];
-					$designation = $row['paper_title'];
-					$institution = $row['org'];
-					$payment=$row['payment_status'];
-				}
-				?>
-				<h3>Payment Success</h3>
-				<div class="table">
-					<table class="table table-bordered">
-						<tbody>
-							<tr>
-								<td>
-									<strong>Your Ref Id :</strong>
-								</td>
-								<td>
-									<?php echo $ref['refno']; ?>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<strong>Amount Paid :</strong>
-								</td>
-								<td>
-									<?php echo $ref['amount']; ?>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<strong>Payment Status:</strong>
-								</td>
-								<td>
-									<?php echo $payment; ?>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<strong>Paper ID:</strong>
-								</td>
-								<td>
-									<?php echo $paper_id; ?>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<strong>Paper Title:</strong>
-								</td>
-								<td><?php echo $designation ?>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<strong>Name of Instution:</strong>
-								</td>
-								<td>
-									<?php echo $institution ?>
-								</td>
-							</tr>
-						</tbody>
-					</table>
+						</div>
+						<div class="col-md-8" style="border-radius:3px;">
+							<?php
+							$query_1 = "SELECT * FROM icrtbi_register WHERE payment_id='$id' AND payment_status='success'"; //Fetch the data from Local DB
+							$run_query = mysqli_query($con, $query_1);
+							while ($row = mysqli_fetch_array($run_query)) {
+								$paper_id = $row['paper_id'];
+								$designation = $row['paper_title'];
+								$institution = $row['org'];
+								$payment = $row['payment_status'];
+							}
+							?>
+							<h3>Payment Success</h3>
+							<div class="table">
+								<table class="table table-bordered">
+									<tbody>
+										<tr>
+											<td>
+												<strong>Your Ref Id :</strong>
+											</td>
+											<td>
+												<?php echo $ref['refno']; ?>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<strong>Amount Paid :</strong>
+											</td>
+											<td>
+												<?php echo $ref['amount']; ?>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<strong>Payment Status:</strong>
+											</td>
+											<td>
+												<?php echo $payment; ?>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<strong>Paper ID:</strong>
+											</td>
+											<td>
+												<?php echo $paper_id; ?>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<strong>Paper Title:</strong>
+											</td>
+											<td><?php echo $designation ?>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<strong>Name of Instution:</strong>
+											</td>
+											<td>
+												<?php echo $institution ?>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<h4>Certificate For:</h4>
+							<div class="table">
+								<table class="table table-bordered">
+									<thead>
+										<tr>
+											<th>Name</th>
+											<th>Institution</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<?php
+											if (mysqli_affected_rows($con) != 0) {
+												$query_2 = "SELECT * FROM icrtbi_certificate,icrtbi_register WHERE icrtbi_register.paper_id=icrtbi_certificate.paper_id AND icrtbi_certificate.paper_id='$paper_id'"; //Query for Fetching the Certificates details
+												$result = mysqli_query($con, $query_2);
+												while ($row1 = mysqli_fetch_array($result)) {
+													echo "<td>" . $row1['certi_names'] . "</td>";
+													echo "<td>" . $row1['certi_inst'] . "</td>";
+													echo "<tr>";
+												}
+											} else {
+												echo "No Data Available!";
+											} ?>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
 				</div>
-				<h4>Certificate For:</h4>
-				<div class="table">
-					<table class="table table-bordered">
-						<thead>
-							<tr>
-								<th>Name</th>
-								<th>Institution</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<?php
-								if (mysqli_affected_rows($con) != 0) {
-									$query_2 = "SELECT * FROM icrtbi_certificate,icrtbi_register WHERE icrtbi_register.paper_id=icrtbi_certificate.paper_id AND icrtbi_certificate.paper_id='$paper_id'"; //Query for Fetching the Certificates details
-									$result = mysqli_query($con, $query_2);
-									while ($row1 = mysqli_fetch_array($result)) {
-										echo "<td>" . $row1['certi_names'] . "</td>";
-										echo "<td>" . $row1['certi_inst'] . "</td>";
-										echo "<tr>";
-									}
-								} else {
-									echo "No Data Available!";
-								} ?>
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
-	</div>
 
 
 
@@ -366,7 +378,7 @@ if (isset($_POST['submit'])) {
 							<div class="field_wrapper">
 								<div class="form-group">
 									<label for="">Certificate</label><br>
-									<input type="text"name="field_name[]" value="" placeholder="Applicant name" />
+									<input type="text" name="field_name[]" value="" placeholder="Applicant name" />
 									<input type="text" name="college_name[]" placeholder="Institution Name">
 									<a href="javascript:void(0);" class="add_button" title="Add field" onclick="check('hidden_div',this)"><i class="fa fa-plus" aria-hidden="true"></i></a>
 								</div>
@@ -376,9 +388,42 @@ if (isset($_POST['submit'])) {
 							<label for="inputPassword4">Price</label>
 							<input type="number" name="element_10" class="form-control" id="hidden_div" value=6000 readonly>
 							<input type="hidden" name="form_id" value="38599" />
+							<br>
+							<p>Payment Method</p>
+							<br>
+							<p>
+								<a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+									NEFT/RTGS/IMPS
+								</a>
+								<a class="btn btn-primary" data-toggle="collapse" href="#collapseOnlinePayment" role="button" aria-expanded="false" aria-controls="collapseExample">
+								Online Payment Credit Card / Debit Card
+								</a>
+							</p>
+							<div class="collapse" id="collapseExample">
+								<div class="card card-body">
+								<label for="nift-payment-date" id="nift">Date of Payment</label>
+								<input type="date" class="form-control" id="nift" style="width: 200px" name="nift-payment-date">
+								<br>
+								<label for="nift-bank" id="nift">Bank & Branch</label>
+								<input type="text" id="nift" placeholder="INDIAN BANK,JEPPIAAR ENGINEERINGCOLLEGE SEMMENCHERR CHENNAI" name="nift-bank" class="form-control">
+								<br>
+								<label for="nift-ref" id="nift">Ref.no</label>
+								<input type="text" id="nift" placeholder="Ref. Number" class="form-control" name="nift-ref">
+								<br>
+								<label id="nift" for="nift-amount">Amount Paid</label>
+								<input id="nift" type="text" placeholder="RS.6000" class="form-control" name="nift-amount">
+								</div>
+								<button type="submit" id="saveForm" name="submit" value="NIRF" class="btn btn-primary">Register</button>
+							</div>
+
+							<br>
+							<div class="collapse" id="collapseOnlinePayment">
+							<button type="submit" id="saveForm" name="submit" value="Payment" class="btn btn-primary">Register</button>
+							</div>
+							
 						</div>
 					</div>
-					<button type="submit" id="saveForm" name="submit" value="Make Payment" class="btn btn-primary">Make Payment</button>
+
 				</form>
 			</div>
 		</div>
@@ -386,9 +431,6 @@ if (isset($_POST['submit'])) {
 </body>
 
 </html>
-
-
-
 <!-- <head>
 
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
