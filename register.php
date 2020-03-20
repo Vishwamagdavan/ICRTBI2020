@@ -1,9 +1,9 @@
 <?php
 session_start();
 
-$con = mysqli_connect("localhost", "u987684220_fdp", "admin@stjose", "u987684220_fdp");
+//$con = mysqli_connect("localhost", "u987684220_fdp", "admin@stjose", "u987684220_fdp");
 
-//$con = mysqli_connect("localhost", "root", "", "epushserver");
+$con = mysqli_connect("localhost", "root", "", "epushserver");
 //require('config.php');
 // include('./httpful.phar');
 $arr = [];
@@ -182,6 +182,7 @@ if (isset($_POST['submit'])) {
 </div>
 <div class="col-md-8">
 								<h1 style="background-color:red; padding:4px; border-radius:5px; text-align:center; color:whitesmoke;">Payment Failed</h1>
+								<a href="http://icrtbi2020.stjosephstechnology.ac.in/register.php" style="color:white;">Try Again</a>
 </div>
 					</div>
 				</div>
@@ -373,7 +374,7 @@ if (isset($_POST['submit'])) {
 
 							<br>
 							<label for="inputPassword4">Price</label>
-							<input type="number" name="element_10" class="form-control" id="hidden_div" value=5500 readonly>
+							<input type="number" name="element_10" class="form-control" id="hidden_div" value=6000 readonly>
 							<input type="hidden" name="form_id" value="38599" />
 						</div>
 					</div>
