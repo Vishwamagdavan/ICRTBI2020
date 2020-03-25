@@ -1,9 +1,9 @@
 <?php
 session_start();
 
-//$con = mysqli_connect("localhost", "u987684220_fdp", "admin@stjose", "u987684220_fdp");
+$con = mysqli_connect("localhost", "u987684220_fdp", "admin@stjose", "u987684220_fdp");
 
-$con = mysqli_connect("localhost", "root", "", "epushserver");
+//$con = mysqli_connect("localhost", "root", "", "epushserver");
 //require('config.php');
 // include('./httpful.phar');
 $arr = [];
@@ -66,7 +66,7 @@ if (isset($_POST['submit'])) {
 	} else {
 		$extra_amount = $amount + 300 * ($i);
 	}
-	$extra_amount = 1;
+	// $extra_amount = 1;
 	//NIFT Payment Work Start here //
 	$payment_method_value = $_POST['submit'];
 	if (strcmp($payment_method_value, "NIRF") == 0) {
@@ -91,7 +91,11 @@ if (isset($_POST['submit'])) {
 	else {
 		$sql = "INSERT INTO `icrtbi_register` (`id`, `paper_id`, `name`, `email`, `paper_title`, `org`, `payment`, `payment_status`, `payment_time`, `mobile`, `category`, `conf_status`, `certificate_num`, `submit_date`, `payment_id`) VALUES 
 	(NULL, '$paper_id', '$name', '$email', '$designation', '$institute', '$extra_amount', 'no', 'no', '$mobile', '$ini_amount', 'yes', '$certica', '$submited_date', '$mtxnid')";
-		mysqli_query($con, $sql);
+		$re=mysqli_query($con, $sql);
+		if(!$re)
+		{
+			echo "Not working";
+		}
 	}
 	if (strcmp($payment_method_value, "NIRF") == 0) {
 		header("Location: message.php");
@@ -340,14 +344,14 @@ if (isset($_POST['submit'])) {
 				<br>
 				<nav>
 					<div class="nav nav-tabs" id="nav-tab" role="tablist">
-						<a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Online Payment Gateway (Credit Card / Debit Card)</a>
-						<a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">NEFT / RTGS/ IMPS</a>
+						<a class="nav-item nav-link active btn btn-primary" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true"  >Online Payment Gateway (Credit Card / Debit Card)</a>
+						<a class="nav-item nav-link btn btn-primary" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false"  >NEFT / RTGS/ IMPS</a>
 					</div>
 				</nav>
 				<div class="tab-content" id="nav-tabContent">
 					<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
 						<br>
-						<h4>Details</h4>
+						<h4>Online Payment Gateway</h4>
 						<form id="form_38599" class="appnitro" enctype="multipart/form-data" method="post" action="register.php">
 							<div class="form-row">
 								<div class="form-group col-md-12">
@@ -408,40 +412,10 @@ if (isset($_POST['submit'])) {
 
 									<br>
 									<label for="inputPassword4">Price</label>
-									<input type="number" name="element_10" class="form-control" id="hidden_div" value=6000 readonly>
+									<input type="number" name="element_10" class="form-control" id="hidden_div" value=6300 readonly>
 									<input type="hidden" name="form_id" value="38599" />
 									<br>
 									<button type="submit" id="saveForm" name="submit" value="Payment" class="btn btn-primary">Register</button>
-
-									<div class="collapse" id="collapseExample">
-										<div class="card card-body">
-											<p style="color: red">Kindly transfer the above mentioned amount in the following account:</p>
-											<br>
-											<p>
-												Account Number: 6493994370 <br>
-												Name of Account: ST.JOSEPH&#39;S INSTITUTE OF TECHNOLOGY-RESEARCH AND DEVELOPMENT <br>
-												Branch: JEPPIAAR ENGINEERINGCOLLEGE SEMMENCHERR CHENNAI <br>
-												IFSC Code: IDIB000J037</p>
-											<br>
-											<label for="nift-payment-date" id="nift">Date of Payment</label>
-											<input type="date" class="form-control" id="nift" style="width: 200px" name="nift-payment-date">
-											<br>
-											<label for="nift-bank" id="nift">Bank & Branch</label>
-											<input type="text" id="nift" placeholder="INDIAN BANK,JEPPIAAR ENGINEERINGCOLLEGE SEMMENCHERR CHENNAI" name="nift-bank" class="form-control">
-											<br>
-											<label for="nift-ref" id="nift">Ref.no</label>
-											<input type="text" id="nift" placeholder="Ref. Number" class="form-control" name="nift-ref">
-											<br>
-											<label id="nift" for="nift-amount">Amount Paid</label>
-											<input id="nift" type="text" placeholder="RS.6000" class="form-control" name="nift-amount">
-										</div>
-										<button type="submit" id="saveForm" name="submit" value="NIRF" class="btn btn-primary">Register</button>
-									</div>
-
-									<br>
-									<div class="collapse" id="collapseOnlinePayment">
-
-									</div>
 
 								</div>
 							</div>
@@ -451,10 +425,11 @@ if (isset($_POST['submit'])) {
 					</div>
 					<div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
 						<br>
-						<h4>Details</h4>
+						<h4>NEFT / RTGS/ IMPS</h4>
 						<form id="form_38599" class="appnitro" enctype="multipart/form-data" method="post" action="register.php">
 							<div class="form-row">
 								<div class="form-group col-md-12">
+
 									<label for="inputEmail4">Paper ID (Easy Chair Paper ID)</label>
 									<input type="text" class="form-control" id="element_0" name="element_0" placeholder="Paper" maxlength="255" value="">
 									<br>
@@ -512,7 +487,7 @@ if (isset($_POST['submit'])) {
 
 									<br>
 									<label for="inputPassword4">Price</label>
-									<input type="number" name="element_10" class="form-control" id="hidden_div" value=6000 readonly>
+									<input type="number" name="element_10" class="form-control" id="hidden_div" value=6300 readonly>
 									<input type="hidden" name="form_id" value="38599" />
 									<br>
 											<p style="color: red">Kindly transfer the above mentioned amount in the following account:</p>
@@ -728,7 +703,7 @@ if (isset($_POST['submit'])) {
 </div>
 <script type="text/javascript">
 	function showDiv(divId, element) {
-		var amount = [6000, 6500, 7000, 1500];
+		var amount = [6300, 6800, 7300, 1800];
 		document.getElementById(divId).value = element.value == 1 ? 0 : amount[element.value - 1];
 		document.getElementById(divId).value = element.value == 2 ? 0 : amount[element.value - 1];
 		document.getElementById(divId).value = element.value == 3 ? 0 : amount[element.value - 1];
