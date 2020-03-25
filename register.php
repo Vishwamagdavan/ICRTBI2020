@@ -60,13 +60,13 @@ if (isset($_POST['submit'])) {
 		$amount = 1500;
 	}
 	$submited_date = time();
-	// $extra_amount = 1;
+
 	if ($i == 1) {
 		$extra_amount = $amount;
 	} else {
 		$extra_amount = $amount + 300 * ($i);
 	}
-
+	$extra_amount = 1;
 	//NIFT Payment Work Start here //
 	$payment_method_value = $_POST['submit'];
 	if (strcmp($payment_method_value, "NIRF") == 0) {
@@ -77,7 +77,7 @@ if (isset($_POST['submit'])) {
 		print_r($bank_branch);
 		$sql = "INSERT INTO `icrtbi_register` (`id`, `paper_id`, `name`, `email`, `paper_title`, `org`, `payment`, `payment_status`, `payment_time`, `mobile`, `category`, `conf_status`, `certificate_num`, `submit_date`, `payment_id`) VALUES 
 	(NULL, '$paper_id', '$name', '$email', '$designation', '$institute', '$nift_amount', 'no', '$bank_branch', '$mobile', '$ini_amount', 'yes', '$certica', '$nift_payment_date', '$nift_ref')";
-	mysqli_query($con, $sql);
+		mysqli_query($con, $sql);
 	}
 
 	//NIFT Payment Work Ends here//
@@ -88,21 +88,18 @@ if (isset($_POST['submit'])) {
 	// else
 	// 	$extra_amount=$amount+500;
 
-	else
-	{
+	else {
 		$sql = "INSERT INTO `icrtbi_register` (`id`, `paper_id`, `name`, `email`, `paper_title`, `org`, `payment`, `payment_status`, `payment_time`, `mobile`, `category`, `conf_status`, `certificate_num`, `submit_date`, `payment_id`) VALUES 
 	(NULL, '$paper_id', '$name', '$email', '$designation', '$institute', '$extra_amount', 'no', 'no', '$mobile', '$ini_amount', 'yes', '$certica', '$submited_date', '$mtxnid')";
-	mysqli_query($con, $sql);
-	
+		mysqli_query($con, $sql);
 	}
 	if (strcmp($payment_method_value, "NIRF") == 0) {
 		header("Location: message.php");
 	} else {
 
 		$_SESSION['mtxnid'] = $mtxnid;
-		header("Location: https://portal.stjosephstechnology.ac.in/sendPost.jsp?RUrl=https://portal.stjosephstechnology.ac.in/TechProcess?auth=fluffy%26amount=$extra_amount%26user=ICRTET%26custid=$name%26refno=$mtxnid%26returnURL=http://icrtbi2020.stjosephstechnology.ac.in/register.php", TRUE, 307);
+		header("Location: http://portal.stjosephstechnology.ac.in/sendPost.jsp?RUrl=http://portal.stjosephstechnology.ac.in/TechProcess?auth=fluffy%26amount=$extra_amount%26user=ICRTET%26custid=$name%26refno=$mtxnid%26returnURL=http://icrtbi2020.stjosephstechnology.ac.in/register.php", TRUE, 307);
 	}
-	
 }
 
 ?>
@@ -338,45 +335,54 @@ if (isset($_POST['submit'])) {
 	</div>
 	<div class="container">
 		<div class="row">
-			<div class="col-md-2"></div>
-			<div style="background-color: #e6e0e0" class="col-md-8">
+			<div class="col-md-1"></div>
+			<div class="col-md-9" style="background-color: #e6e0e0">
 				<br>
-				<h4>Details</h4>
-				<form id="form_38599" class="appnitro" enctype="multipart/form-data" method="post" action="register.php">
-					<div class="form-row">
-						<div class="form-group col-md-12">
-							<label for="inputEmail4">Paper ID (Easy Chair Paper ID)</label>
-							<input type="text" class="form-control" id="element_0" name="element_0" placeholder="Paper" maxlength="255" value="">
-							<br>
-							<label for="inputPassword4">Paper title</label>
-							<input type="text" class="form-control" id="element_1" name="element_1" placeholder="Paper Title" maxlength="255" value="">
-							<br>
-							<label for="inputPassword4">Corresponding Author Name</label>
-							<input type="text" class="form-control" id="element_2" name="element_2" placeholder="Ex: John" maxlength="255" value="">
-							<br>
-							<label for="inputPassword4">Corresponding Author Email</label>
-							<input type="email" class="form-control" id="element_3" name="element_3" placeholder="Ex: example@gmail.com" maxlength="255" value="">
-							<br>
-							<label for="inputPassword4">Corresponding Author Mobile</label>
-							<input type="text" class="form-control" id="element_5" name="element_5" placeholder="Ex: +919898989898" maxlength="255" value="">
-							<!-- <label for="inputPassword4">Affliation</label>
+				<nav>
+					<div class="nav nav-tabs" id="nav-tab" role="tablist">
+						<a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Online Payment Gateway (Credit Card / Debit Card)</a>
+						<a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">NEFT / RTGS/ IMPS</a>
+					</div>
+				</nav>
+				<div class="tab-content" id="nav-tabContent">
+					<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+						<br>
+						<h4>Details</h4>
+						<form id="form_38599" class="appnitro" enctype="multipart/form-data" method="post" action="register.php">
+							<div class="form-row">
+								<div class="form-group col-md-12">
+									<label for="inputEmail4">Paper ID (Easy Chair Paper ID)</label>
+									<input type="text" class="form-control" id="element_0" name="element_0" placeholder="Paper" maxlength="255" value="">
+									<br>
+									<label for="inputPassword4">Paper title</label>
+									<input type="text" class="form-control" id="element_1" name="element_1" placeholder="Paper Title" maxlength="255" value="">
+									<br>
+									<label for="inputPassword4">Corresponding Author Name</label>
+									<input type="text" class="form-control" id="element_2" name="element_2" placeholder="Ex: John" maxlength="255" value="">
+									<br>
+									<label for="inputPassword4">Corresponding Author Email</label>
+									<input type="email" class="form-control" id="element_3" name="element_3" placeholder="Ex: example@gmail.com" maxlength="255" value="">
+									<br>
+									<label for="inputPassword4">Corresponding Author Mobile</label>
+									<input type="text" class="form-control" id="element_5" name="element_5" placeholder="Ex: +919898989898" maxlength="255" value="">
+									<!-- <label for="inputPassword4">Affliation</label>
 							<input type="text" class="form-control" id="element_5" name="element_9" placeholder="" maxlength="255" value="">
 							<br> -->
-							<br>
-							<label for="inputPassword4">Name of Institution/ Organisation</label>
-							<input type="text" class="form-control" id="element_4" name="element_4" placeholder="St. Joseph's Institute of Technology" maxlength="255" value="">
-							<br>
-							<!-- <label for="inputPassword4">Corresponding Author Mobile</label>
+									<br>
+									<label for="inputPassword4">Name of Institution/ Organisation</label>
+									<input type="text" class="form-control" id="element_4" name="element_4" placeholder="St. Joseph's Institute of Technology" maxlength="255" value="">
+									<br>
+									<!-- <label for="inputPassword4">Corresponding Author Mobile</label>
 							<input type="text" class="form-control" id="element_5" name="element_5" placeholder="Ex: +919898989898" maxlength="255" value="">
 							<br> -->
-							<label for="inputState">Category</label>
-							<select id="inputState" class="form-control" name="element_8" onchange="showDiv('hidden_div',this)">
-								<option value="1">STUDENT</option>
-								<option value="2">RESEARCH SCHOLAR</option>
-								<option value="3">ACADEMIA / R&D / INDUSTRY</option>
-								<option value="4">LISTENER</option>
-							</select>
-							<!-- <br>
+									<label for="inputState">Category</label>
+									<select id="inputState" class="form-control" name="element_8" onchange="showDiv('hidden_div',this)">
+										<option value="1">STUDENT</option>
+										<option value="2">RESEARCH SCHOLAR</option>
+										<option value="3">ACADEMIA / R&D / INDUSTRY</option>
+										<option value="4">LISTENER</option>
+									</select>
+									<!-- <br>
 							<label for="inputState">Category</label>
 							<select id="element_10" class="form-control" onchange="debug()" onload="debug()">
 								<option value="5500" >STUDENT</option>
@@ -384,63 +390,162 @@ if (isset($_POST['submit'])) {
 								<option value="6500">ACADEMIA / R&D / INDUSTRY</option>
 								<option value="1500">LISTENER</option>
 							</select> -->
-							<br>
+									<br>
 
-							<input type="checkbox" id="sem" name="sem" value="1">I would like to attend One Day Pre-Conference<br>
-							<br>
-							<label for="inputPassword4">Discount Coupon (Applies only for home institution)</label>
-							<input type="text" name="element_9" class="form-control" placeholder="Enter Coupon Code">
-							<br>
-							<div class="field_wrapper">
-								<div class="form-group">
-									<label for="">Certificate</label><br>
-									<input type="text" name="field_name[]" value="" placeholder="Applicant name" />
-									<input type="text" name="college_name[]" placeholder="Institution Name">
-									<a href="javascript:void(0);" class="add_button" title="Add field" onclick="check('hidden_div',this)"><i class="fa fa-plus" aria-hidden="true"></i></a>
+									<input type="checkbox" id="sem" name="sem" value="1">I would like to attend One Day Pre-Conference<br>
+									<br>
+									<label for="inputPassword4">Discount Coupon (Applies only for home institution)</label>
+									<input type="text" name="element_9" class="form-control" placeholder="Enter Coupon Code">
+									<br>
+									<div class="field_wrapper">
+										<div class="form-group">
+											<label for="">Certificate</label><br>
+											<input type="text" name="field_name[]" value="" placeholder="Applicant name" />
+											<input type="text" name="college_name[]" placeholder="Institution Name">
+											<a href="javascript:void(0);" class="add_button" title="Add field" onclick="check('hidden_div',this)"><i class="fa fa-plus" aria-hidden="true"></i></a>
+										</div>
+									</div>
+
+									<br>
+									<label for="inputPassword4">Price</label>
+									<input type="number" name="element_10" class="form-control" id="hidden_div" value=6000 readonly>
+									<input type="hidden" name="form_id" value="38599" />
+									<br>
+									<button type="submit" id="saveForm" name="submit" value="Payment" class="btn btn-primary">Register</button>
+
+									<div class="collapse" id="collapseExample">
+										<div class="card card-body">
+											<p style="color: red">Kindly transfer the above mentioned amount in the following account:</p>
+											<br>
+											<p>
+												Account Number: 6493994370 <br>
+												Name of Account: ST.JOSEPH&#39;S INSTITUTE OF TECHNOLOGY-RESEARCH AND DEVELOPMENT <br>
+												Branch: JEPPIAAR ENGINEERINGCOLLEGE SEMMENCHERR CHENNAI <br>
+												IFSC Code: IDIB000J037</p>
+											<br>
+											<label for="nift-payment-date" id="nift">Date of Payment</label>
+											<input type="date" class="form-control" id="nift" style="width: 200px" name="nift-payment-date">
+											<br>
+											<label for="nift-bank" id="nift">Bank & Branch</label>
+											<input type="text" id="nift" placeholder="INDIAN BANK,JEPPIAAR ENGINEERINGCOLLEGE SEMMENCHERR CHENNAI" name="nift-bank" class="form-control">
+											<br>
+											<label for="nift-ref" id="nift">Ref.no</label>
+											<input type="text" id="nift" placeholder="Ref. Number" class="form-control" name="nift-ref">
+											<br>
+											<label id="nift" for="nift-amount">Amount Paid</label>
+											<input id="nift" type="text" placeholder="RS.6000" class="form-control" name="nift-amount">
+										</div>
+										<button type="submit" id="saveForm" name="submit" value="NIRF" class="btn btn-primary">Register</button>
+									</div>
+
+									<br>
+									<div class="collapse" id="collapseOnlinePayment">
+
+									</div>
+
 								</div>
 							</div>
 
-							<br>
-							<label for="inputPassword4">Price</label>
-							<input type="number" name="element_10" class="form-control" id="hidden_div" value=6000 readonly>
-							<input type="hidden" name="form_id" value="38599" />
-							<br>
-							<p>Payment Method</p>
-							<br>
-							<p>
-								<a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-									NEFT/RTGS/IMPS
-								</a>
-								<a class="btn btn-primary" data-toggle="collapse" href="#collapseOnlinePayment" role="button" aria-expanded="false" aria-controls="collapseExample">
-									Online Payment Credit Card / Debit Card
-								</a>
-							</p>
-							<div class="collapse" id="collapseExample">
-								<div class="card card-body">
-									<label for="nift-payment-date" id="nift">Date of Payment</label>
-									<input type="date" class="form-control" id="nift" style="width: 200px" name="nift-payment-date">
-									<br>
-									<label for="nift-bank" id="nift">Bank & Branch</label>
-									<input type="text" id="nift" placeholder="INDIAN BANK,JEPPIAAR ENGINEERINGCOLLEGE SEMMENCHERR CHENNAI" name="nift-bank" class="form-control">
-									<br>
-									<label for="nift-ref" id="nift">Ref.no</label>
-									<input type="text" id="nift" placeholder="Ref. Number" class="form-control" name="nift-ref">
-									<br>
-									<label id="nift" for="nift-amount">Amount Paid</label>
-									<input id="nift" type="text" placeholder="RS.6000" class="form-control" name="nift-amount">
-								</div>
-								<button type="submit" id="saveForm" name="submit" value="NIRF" class="btn btn-primary">Register</button>
-							</div>
+						</form>
 
-							<br>
-							<div class="collapse" id="collapseOnlinePayment">
-								<button type="submit" id="saveForm" name="submit" value="Payment" class="btn btn-primary">Register</button>
-							</div>
-
-						</div>
 					</div>
+					<div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+						<br>
+						<h4>Details</h4>
+						<form id="form_38599" class="appnitro" enctype="multipart/form-data" method="post" action="register.php">
+							<div class="form-row">
+								<div class="form-group col-md-12">
+									<label for="inputEmail4">Paper ID (Easy Chair Paper ID)</label>
+									<input type="text" class="form-control" id="element_0" name="element_0" placeholder="Paper" maxlength="255" value="">
+									<br>
+									<label for="inputPassword4">Paper title</label>
+									<input type="text" class="form-control" id="element_1" name="element_1" placeholder="Paper Title" maxlength="255" value="">
+									<br>
+									<label for="inputPassword4">Corresponding Author Name</label>
+									<input type="text" class="form-control" id="element_2" name="element_2" placeholder="Ex: John" maxlength="255" value="">
+									<br>
+									<label for="inputPassword4">Corresponding Author Email</label>
+									<input type="email" class="form-control" id="element_3" name="element_3" placeholder="Ex: example@gmail.com" maxlength="255" value="">
+									<br>
+									<label for="inputPassword4">Corresponding Author Mobile</label>
+									<input type="text" class="form-control" id="element_5" name="element_5" placeholder="Ex: +919898989898" maxlength="255" value="">
+									<!-- <label for="inputPassword4">Affliation</label>
+							<input type="text" class="form-control" id="element_5" name="element_9" placeholder="" maxlength="255" value="">
+							<br> -->
+									<br>
+									<label for="inputPassword4">Name of Institution/ Organisation</label>
+									<input type="text" class="form-control" id="element_4" name="element_4" placeholder="St. Joseph's Institute of Technology" maxlength="255" value="">
+									<br>
+									<!-- <label for="inputPassword4">Corresponding Author Mobile</label>
+							<input type="text" class="form-control" id="element_5" name="element_5" placeholder="Ex: +919898989898" maxlength="255" value="">
+							<br> -->
+									<label for="inputState">Category</label>
+									<select id="inputState" class="form-control" name="element_8" onchange="showDiv('hidden_div',this)">
+										<option value="1">STUDENT</option>
+										<option value="2">RESEARCH SCHOLAR</option>
+										<option value="3">ACADEMIA / R&D / INDUSTRY</option>
+										<option value="4">LISTENER</option>
+									</select>
+									<!-- <br>
+							<label for="inputState">Category</label>
+							<select id="element_10" class="form-control" onchange="debug()" onload="debug()">
+								<option value="5500" >STUDENT</option>
+								<option value="6000" selected>RESEARCH SCHOLAR</option>
+								<option value="6500">ACADEMIA / R&D / INDUSTRY</option>
+								<option value="1500">LISTENER</option>
+							</select> -->
+									<br>
 
-				</form>
+									<input type="checkbox" id="sem" name="sem" value="1">I would like to attend One Day Pre-Conference<br>
+									<br>
+									<label for="inputPassword4">Discount Coupon (Applies only for home institution)</label>
+									<input type="text" name="element_9" class="form-control" placeholder="Enter Coupon Code">
+									<br>
+									<div class="field_wrapper">
+										<div class="form-group">
+											<label for="">Certificate</label><br>
+											<input type="text" name="field_name[]" value="" placeholder="Applicant name" />
+											<input type="text" name="college_name[]" placeholder="Institution Name">
+											<a href="javascript:void(0);" class="add_button" title="Add field" onclick="check('hidden_div',this)"><i class="fa fa-plus" aria-hidden="true"></i></a>
+										</div>
+									</div>
+
+									<br>
+									<label for="inputPassword4">Price</label>
+									<input type="number" name="element_10" class="form-control" id="hidden_div" value=6000 readonly>
+									<input type="hidden" name="form_id" value="38599" />
+									<br>
+											<p style="color: red">Kindly transfer the above mentioned amount in the following account:</p>
+											<br>
+											<p>
+												Account Number: 6493994370 <br>
+												Name of Account: ST.JOSEPH&#39;S INSTITUTE OF TECHNOLOGY-RESEARCH AND DEVELOPMENT <br>
+												Branch: JEPPIAAR ENGINEERINGCOLLEGE SEMMENCHERR CHENNAI <br>
+												IFSC Code: IDIB000J037</p>
+											<br>
+											<label for="nift-payment-date" id="nift">Date of Payment</label>
+											<input type="date" class="form-control" id="nift" style="width: 200px" name="nift-payment-date">
+											<br>
+											<label for="nift-bank" id="nift">Bank & Branch</label>
+											<input type="text" id="nift" placeholder="INDIAN BANK,JEPPIAAR ENGINEERINGCOLLEGE SEMMENCHERR CHENNAI" name="nift-bank" class="form-control">
+											<br>
+											<label for="nift-ref" id="nift">Ref.no</label>
+											<input type="text" id="nift" placeholder="Ref. Number" class="form-control" name="nift-ref">
+											<br>
+											<label id="nift" for="nift-amount">Amount Paid</label>
+											<input id="nift" type="text" placeholder="RS.6000" class="form-control" name="nift-amount">
+											<br>
+										<button type="submit" id="saveForm" name="submit" value="NIRF" class="btn btn-primary">Register</button>
+									</div>
+
+
+								</div>
+							</div>
+
+						</form>
+					</div>
+				</div>
+
 			</div>
 		</div>
 	</div>
