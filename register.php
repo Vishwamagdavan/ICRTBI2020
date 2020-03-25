@@ -13,7 +13,13 @@ if (isset($_POST['submit'])) {
 	$certica = mt_rand(2, 9999);
 	$paper_id = $_POST['element_0'];
 	$field_values_array = $_POST['field_name'];
+
+	$field_values_array = str_replace("'", "\'", $field_values_array);
+
 	$field_values_collge = $_POST['college_name'];
+
+	$field_values_collge = str_replace("'", "\'", $field_values_collge);
+
 	$i = count($field_values_array);
 	foreach ($field_values_array as $value) {
 		array_push($arr, $value);
@@ -24,21 +30,23 @@ if (isset($_POST['submit'])) {
 	for ($j = 0; $j < $i; $j++) {
 		$certi_names = $arr[$j];
 		$certi_college = $certificate_array[$j];
-		// echo $certi_college." ".$certi_names."<br>";
-
 		$query_certificate = "INSERT INTO icrtbi_certificate (paper_id,certi_names,certificate_num,certi_inst) VALUES ('$paper_id', '$certi_names','$certica','$certi_college')";
 		$query_run = mysqli_query($con, $query_certificate);
+
+		if (!$query_run) {
+			echo "Error:" . mysqli_errno($con);
+		}
 	}
 
-	// foreach($field_values_array as $value){
-	// 	$certi_names=$field_values_array[$i/2];
+	/*foreach($field_values_array as $value){
+		$certi_names=$field_values_array[$i/2];
 
-	// 	$certi_college=$field_values_collge[$i/2];
-	// 	$query_certificate="INSERT INTO icrtbi_certificate (paper_id,certi_names,certi_inst) VALUES ('$paper_id', '$certi_names', '$certi_college')";
-	// 	$query_run = mysqli_query($con, $query_certificate);	
-	// 	$arr[$i]=$value;
-	// 	$i++;
-	// }
+		$certi_college=$field_values_collge[$i/2];
+		$query_certificate="INSERT INTO icrtbi_certificate (paper_id,certi_names,certi_inst) VALUES ('$paper_id', '$certi_names', '$certi_college')";
+		$query_run = mysqli_query($con, $query_certificate);	
+		$arr[$i]=$value;
+		$i++;
+	}*/
 	$mtxnid = "ICRTBI2020" . mt_rand();
 
 	$name = $_POST['element_2'];
@@ -47,8 +55,17 @@ if (isset($_POST['submit'])) {
 	$institute = $_POST['element_4'];
 	$mobile = $_POST['element_5'];
 	$ini_amount = $_POST['element_8'];
-	//$seminar_status=$_POST['sem'];
+	//$seminar_status=$_POST['sem']; //Seminar Status DEFUALT 1//
 	$discount = $_POST['element_9'];
+
+	//Clean the Inputs for Maria DB
+
+	$name = str_replace("'", "\'", $name);
+	$designation = str_replace("'", "\'", $designation);
+	$institute = str_replace("'", "\'", $institute);
+	//Clean the Inputs ENDS
+
+
 	$amount = 0;
 	if ($ini_amount == 1) {
 		$amount = 6000;
@@ -66,7 +83,11 @@ if (isset($_POST['submit'])) {
 	} else {
 		$extra_amount = $amount + 300 * ($i);
 	}
-	// $extra_amount = 1;
+
+
+	$extra_amount = 1;  //comment this for DEFAULT TRANSCATIONS
+
+
 	//NIFT Payment Work Start here //
 	$payment_method_value = $_POST['submit'];
 	if (strcmp($payment_method_value, "NIRF") == 0) {
@@ -76,25 +97,18 @@ if (isset($_POST['submit'])) {
 		$nift_amount = $_POST['nift-amount'];
 		print_r($bank_branch);
 		$sql = "INSERT INTO `icrtbi_register` (`id`, `paper_id`, `name`, `email`, `paper_title`, `org`, `payment`, `payment_status`, `payment_time`, `mobile`, `category`, `conf_status`, `certificate_num`, `submit_date`, `payment_id`) VALUES 
-	(NULL, '$paper_id', '$name', '$email', '$designation', '$institute', '$nift_amount', 'no', '$bank_branch', '$mobile', '$ini_amount', 'yes', '$certica', '$nift_payment_date', '$nift_ref')";
+	(NULL, '$paper_id', '$name', '$email', '$designation', " . $institute . ", '$nift_amount', 'no', '$bank_branch', '$mobile', '$ini_amount', 'yes', '$certica', '$nift_payment_date', '$nift_ref')";
 		mysqli_query($con, $sql);
 	}
 
 	//NIFT Payment Work Ends here//
 
-
-	// if($extra_amount==1)
-	// 	$extra_amount=$amount;
-	// else
-	// 	$extra_amount=$amount+500;
-
 	else {
 		$sql = "INSERT INTO `icrtbi_register` (`id`, `paper_id`, `name`, `email`, `paper_title`, `org`, `payment`, `payment_status`, `payment_time`, `mobile`, `category`, `conf_status`, `certificate_num`, `submit_date`, `payment_id`) VALUES 
 	(NULL, '$paper_id', '$name', '$email', '$designation', '$institute', '$extra_amount', 'no', 'no', '$mobile', '$ini_amount', 'yes', '$certica', '$submited_date', '$mtxnid')";
-		$re=mysqli_query($con, $sql);
-		if(!$re)
-		{
-			echo "Not working";
+		$re = mysqli_query($con, $sql);
+		if (!$re) {
+			printf("Error: %s\n", mysqli_error($con));
 		}
 	}
 	if (strcmp($payment_method_value, "NIRF") == 0) {
@@ -201,6 +215,7 @@ if (isset($_POST['submit'])) {
 			$payment_time = time();
 			$ref = $_GET['msg'];
 			$ref = json_decode($ref, true);
+			$refID = $ref['refno'];
 			if (strcmp($message, 'Transaction Failed') == 0) {
 				$query = "UPDATE icrtbi_register set payment_status='failed' WHERE payment_id='$id'";
 				$query_run = mysqli_query($con, $query);
@@ -313,7 +328,7 @@ if (isset($_POST['submit'])) {
 										<tr>
 											<?php
 											if (mysqli_affected_rows($con) != 0) {
-												$query_2 = "SELECT * FROM icrtbi_certificate,icrtbi_register WHERE icrtbi_register.paper_id=icrtbi_certificate.paper_id AND icrtbi_certificate.paper_id='$paper_id'"; //Query for Fetching the Certificates details
+												$query_2 = "SELECT * FROM icrtbi_certificate,icrtbi_register WHERE icrtbi_register.certificate_num=icrtbi_certificate.certificate_num AND  icrtbi_register='$refID'"; //Query for Fetching the Certificates details
 												$result = mysqli_query($con, $query_2);
 												while ($row1 = mysqli_fetch_array($result)) {
 													echo "<td>" . $row1['certi_names'] . "</td>";
@@ -344,8 +359,8 @@ if (isset($_POST['submit'])) {
 				<br>
 				<nav>
 					<div class="nav nav-tabs" id="nav-tab" role="tablist">
-						<a class="nav-item nav-link active btn btn-primary" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true"  >Online Payment Gateway (Credit Card / Debit Card)</a>
-						<a class="nav-item nav-link btn btn-primary" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false"  >NEFT / RTGS/ IMPS</a>
+						<a class="nav-item nav-link active btn btn-primary" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Online Payment Gateway (Credit Card / Debit Card)</a>
+						<a class="nav-item nav-link btn btn-primary" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">NEFT / RTGS/ IMPS</a>
 					</div>
 				</nav>
 				<div class="tab-content" id="nav-tabContent">
@@ -490,39 +505,39 @@ if (isset($_POST['submit'])) {
 									<input type="number" name="element_10" class="form-control" id="hidden_div" value=6300 readonly>
 									<input type="hidden" name="form_id" value="38599" />
 									<br>
-											<p style="color: red">Kindly transfer the above mentioned amount in the following account:</p>
-											<br>
-											<p>
-												Account Number: 6493994370 <br>
-												Name of Account: ST.JOSEPH&#39;S INSTITUTE OF TECHNOLOGY-RESEARCH AND DEVELOPMENT <br>
-												Branch: JEPPIAAR ENGINEERINGCOLLEGE SEMMENCHERR CHENNAI <br>
-												IFSC Code: IDIB000J037</p>
-											<br>
-											<label for="nift-payment-date" id="nift">Date of Payment</label>
-											<input type="date" class="form-control" id="nift" style="width: 200px" name="nift-payment-date">
-											<br>
-											<label for="nift-bank" id="nift">Bank & Branch</label>
-											<input type="text" id="nift" placeholder="INDIAN BANK,JEPPIAAR ENGINEERINGCOLLEGE SEMMENCHERR CHENNAI" name="nift-bank" class="form-control">
-											<br>
-											<label for="nift-ref" id="nift">Ref.no</label>
-											<input type="text" id="nift" placeholder="Ref. Number" class="form-control" name="nift-ref">
-											<br>
-											<label id="nift" for="nift-amount">Amount Paid</label>
-											<input id="nift" type="text" placeholder="RS.6000" class="form-control" name="nift-amount">
-											<br>
-										<button type="submit" id="saveForm" name="submit" value="NIRF" class="btn btn-primary">Register</button>
-									</div>
-
-
+									<p style="color: red">Kindly transfer the above mentioned amount in the following account:</p>
+									<br>
+									<p>
+										Account Number: 6493994370 <br>
+										Name of Account: ST.JOSEPH&#39;S INSTITUTE OF TECHNOLOGY-RESEARCH AND DEVELOPMENT <br>
+										Branch: JEPPIAAR ENGINEERINGCOLLEGE SEMMENCHERR CHENNAI <br>
+										IFSC Code: IDIB000J037</p>
+									<br>
+									<label for="nift-payment-date" id="nift">Date of Payment</label>
+									<input type="date" class="form-control" id="nift" style="width: 200px" name="nift-payment-date">
+									<br>
+									<label for="nift-bank" id="nift">Bank & Branch</label>
+									<input type="text" id="nift" placeholder="INDIAN BANK,JEPPIAAR ENGINEERINGCOLLEGE SEMMENCHERR CHENNAI" name="nift-bank" class="form-control">
+									<br>
+									<label for="nift-ref" id="nift">Ref.no</label>
+									<input type="text" id="nift" placeholder="Ref. Number" class="form-control" name="nift-ref">
+									<br>
+									<label id="nift" for="nift-amount">Amount Paid</label>
+									<input id="nift" type="text" placeholder="RS.6000" class="form-control" name="nift-amount">
+									<br>
+									<button type="submit" id="saveForm" name="submit" value="NIRF" class="btn btn-primary">Register</button>
 								</div>
+
+
 							</div>
-
-						</form>
 					</div>
-				</div>
 
+					</form>
+				</div>
 			</div>
+
 		</div>
+	</div>
 	</div>
 </body>
 
