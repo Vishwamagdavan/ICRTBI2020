@@ -80,12 +80,13 @@ if (isset($_POST['submit'])) {
 
 	if ($i == 1) {
 		$extra_amount = $amount;
-	} else {
-		$extra_amount = $amount + 300 * ($i);
+	} 
+	else {
+		$extra_amount = $amount + 300 * ($i-1);
 	}
 
 
-	$extra_amount = 1;  //comment this for DEFAULT TRANSCATIONS
+	// $extra_amount = 1;  //comment this for DEFAULT TRANSCATIONS
 
 
 	//NIFT Payment Work Start here //
@@ -427,7 +428,7 @@ if (isset($_POST['submit'])) {
 
 									<br>
 									<label for="inputPassword4">Price</label>
-									<input type="number" name="element_10" class="form-control" id="hidden_div" value=6300 readonly>
+									<input type="number" name="element_10" class="form-control" id="hidden_div" value=6000 readonly>
 									<input type="hidden" name="form_id" value="38599" />
 									<br>
 									<button type="submit" id="saveForm" name="submit" value="Payment" class="btn btn-primary">Register</button>
@@ -502,7 +503,7 @@ if (isset($_POST['submit'])) {
 
 									<br>
 									<label for="inputPassword4">Price</label>
-									<input type="number" name="element_10" class="form-control" id="hidden_div" value=6300 readonly>
+									<input type="number" name="element_10" class="form-control" id="hidden_div" value=6000 readonly>
 									<input type="hidden" name="form_id" value="38599" />
 									<br>
 									<p style="color: red">Kindly transfer the above mentioned amount in the following account:</p>
@@ -718,7 +719,7 @@ if (isset($_POST['submit'])) {
 </div>
 <script type="text/javascript">
 	function showDiv(divId, element) {
-		var amount = [6300, 6800, 7300, 1800];
+		var amount = [6000, 6500, 7000, 1500];
 		document.getElementById(divId).value = element.value == 1 ? 0 : amount[element.value - 1];
 		document.getElementById(divId).value = element.value == 2 ? 0 : amount[element.value - 1];
 		document.getElementById(divId).value = element.value == 3 ? 0 : amount[element.value - 1];
