@@ -48,7 +48,8 @@ if (isset($_POST['submit'])) {
 		$i++;
 	}*/
 	$mtxnid = "ICRTBI2020" . mt_rand();
-
+	$conf_status = $_POST['sem'];
+	// var_dump($conf_status);
 	$name = $_POST['element_2'];
 	$designation = $_POST['element_1'];
 	$email = $_POST['element_3'];
@@ -57,14 +58,20 @@ if (isset($_POST['submit'])) {
 	$ini_amount = $_POST['element_8'];
 	//$seminar_status=$_POST['sem']; //Seminar Status DEFUALT 1//
 	$discount = $_POST['element_9'];
-
 	//Clean the Inputs for Maria DB
 
 	$name = str_replace("'", "\'", $name);
 	$designation = str_replace("'", "\'", $designation);
 	$institute = str_replace("'", "\'", $institute);
 	//Clean the Inputs ENDS
-
+	if (strcmp($conf_status, "1") == 0) {
+		$conf = "yes";
+	} else if (strcmp($discount, "STJOSEPHS") == 0) {
+		$extra_amount = 1;
+		$conf = "yes-DISCOUNT";
+	} else {
+		$conf = "no";
+	}
 
 	$amount = 0;
 	if ($ini_amount == 1) {
@@ -80,11 +87,9 @@ if (isset($_POST['submit'])) {
 
 	if ($i == 1) {
 		$extra_amount = $amount;
-	} 
-	else {
-		$extra_amount = $amount + 300 * ($i-1);
+	} else {
+		$extra_amount = $amount + 300 * ($i - 1);
 	}
-
 
 	// $extra_amount = 1;  //comment this for DEFAULT TRANSCATIONS
 
@@ -98,7 +103,7 @@ if (isset($_POST['submit'])) {
 		$nift_amount = $_POST['nift-amount'];
 		print_r($bank_branch);
 		$sql = "INSERT INTO `icrtbi_register` (`id`, `paper_id`, `name`, `email`, `paper_title`, `org`, `payment`, `payment_status`, `payment_time`, `mobile`, `category`, `conf_status`, `certificate_num`, `submit_date`, `payment_id`) VALUES 
-	(NULL, '$paper_id', '$name', '$email', '$designation', " . $institute . ", '$nift_amount', 'no', '$bank_branch', '$mobile', '$ini_amount', 'yes', '$certica', '$nift_payment_date', '$nift_ref')";
+	(NULL, '$paper_id', '$name', '$email', '$designation', " . $institute . ", '$nift_amount', 'no', '$bank_branch', '$mobile', '$ini_amount', '$conf', '$certica', '$nift_payment_date', '$nift_ref')";
 		mysqli_query($con, $sql);
 	}
 
@@ -106,7 +111,7 @@ if (isset($_POST['submit'])) {
 
 	else {
 		$sql = "INSERT INTO `icrtbi_register` (`id`, `paper_id`, `name`, `email`, `paper_title`, `org`, `payment`, `payment_status`, `payment_time`, `mobile`, `category`, `conf_status`, `certificate_num`, `submit_date`, `payment_id`) VALUES 
-	(NULL, '$paper_id', '$name', '$email', '$designation', '$institute', '$extra_amount', 'no', 'no', '$mobile', '$ini_amount', 'yes', '$certica', '$submited_date', '$mtxnid')";
+	(NULL, '$paper_id', '$name', '$email', '$designation', '$institute', '$extra_amount', 'no', 'no', '$mobile', '$ini_amount', '$conf', '$certica', '$submited_date', '$mtxnid')";
 		$re = mysqli_query($con, $sql);
 		if (!$re) {
 			printf("Error: %s\n", mysqli_error($con));
@@ -196,7 +201,7 @@ if (isset($_POST['submit'])) {
 				<div class="row">
 					<div class="col-md-12">
 						<div class="d-flex justify-content-center">
-							<h5 style="background-color:#236298; color: white; padding: 8px; border-radius: 6px;">Conference Date <time><strong>7<sup>th</sup> to 9<sup>th</sup> April 2020</strong></time></h5>
+							<h5 style="background-color:#236298; color: white; padding: 8px; border-radius: 6px;">Conference Date <time><strong>22<sup>nd</sup> to 24<sup>th</sup> July 2020</strong></time></h5>
 						</div>
 					</div>
 				</div>
